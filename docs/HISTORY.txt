@@ -1,0 +1,9 @@
+Changelog for archetypes.schemaextender
+
+    (name of developer listed in brackets)
+
+archetypes.schemaextender - 0.1 Unreleased
+
+    - Initial package structure.
+      [zopeskel]
+
