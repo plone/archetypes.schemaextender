@@ -34,9 +34,9 @@ def test_suite():
         #    'README.txt', package='archetypes.schemaextender',
         #    setUp=testing.setUp, tearDown=testing.tearDown),
 
-        #doctestunit.DocTestSuite(
-        #    module='archetypes.schemaextender.mymodule',
-        #    setUp=testing.setUp, tearDown=testing.tearDown),
+        doctestunit.DocTestSuite(
+           module='archetypes.schemaextender.extender',
+           setUp=testing.setUp, tearDown=testing.tearDown),
 
 
         # Integration tests that use PloneTestCase

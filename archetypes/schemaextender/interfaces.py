@@ -1,5 +1,6 @@
 from zope.interface import Interface
 
+
 class ISchemaExtender(Interface):
     """Interface for adapters that extend the schema.
     """
@@ -7,6 +8,8 @@ class ISchemaExtender(Interface):
     def getFields():
         """Returns fields to be added to the schema."""
 
+
+class IOrderableSchemaExtender(ISchemaExtender):
     def getOrder(original):
         """Returns the optionally reordered fields.
 
