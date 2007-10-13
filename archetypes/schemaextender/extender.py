@@ -1,6 +1,6 @@
 from Products.Archetypes.interfaces import ISchema, IBaseObject
-from archetypes.schemaextender.interface import ISchemaExtender
-from archetypes.schemaextender.interface import IOrderableSchemaExtender
+from archetypes.schemaextender.interfaces import ISchemaExtender
+from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
 from zope.component import adapter, getAdapters
 from zope.interface import implementer
 
