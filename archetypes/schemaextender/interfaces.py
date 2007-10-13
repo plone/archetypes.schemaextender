@@ -9,6 +9,9 @@ class ISchemaExtender(Interface):
         """
 
 class IOrderableSchemaExtender(ISchemaExtender):
+    """An orderable version of the schema extender
+    """
+    
     def getOrder(original):
         """Returns the optionally reordered fields.
 

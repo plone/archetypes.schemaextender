@@ -65,7 +65,7 @@ Sometimes, we may want to do something quite different - for example, we can
 let the field manage a marker interface on the type. Here, we do not need the
 ExternalField mixin. Instead, we provide our own accessors and mutators.
 
-    >>> class IHighlighted(zope.interface.Interfaces):
+    >>> class IHighlighted(zope.interface.Interface):
     ...     """A highlighted content item.
     ...     """
 
@@ -83,7 +83,96 @@ ExternalField mixin. Instead, we provide our own accessors and mutators.
     ...         def mutator(value):
     ...             if value and not IHighlighted.providedBy(instance):
     ...                 zope.interface.alsoProvides(instance, IHighlighted)
-    ...             else if not value and IHighlighted.providedBy(instance):
+    ...             elif not value and IHighlighted.providedBy(instance):
     ...                 zope.interface.noLongerProvides(instance, IHighlighted)
     ...         return mutator
 
+At this point, we have two custom fields. Now, let's add them to the
+schema of any ITaggable. We also define the order of fields. Here, it is 
+important to use relative operations, since other schema extenders could be
+setting the order as well.
+
+    >>> import zope.component
+    >>> from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
+
+    >>> class TaggingSchemaExtender(object):
+    ...     zope.interface.implements(IOrderableSchemaExtender)
+    ...     zope.component.adapts(ITaggable)
+    ...     
+    ...     _fields = [
+    ...             TagsField('schemaextender_test_tags',
+    ...                 schemata='categorization',
+    ...                 widget=atapi.KeywordWidget(
+    ...                     title="Tags",
+    ...                     description="Set some cool tags"
+    ...                 ),
+    ...             ),
+    ...             
+    ...             HighlightedField('schemaextender_test_highlighted',
+    ...                 schemata='settings',
+    ...                 widget=atapi.BooleanWidget(
+    ...                     title="Highlighted",
+    ...                     description="Highlight this item"
+    ...                 ),
+    ...             ),
+    ...         ]
+    ...     
+    ...     def __init__(self, context):
+    ...         self.context = context
+    ...     
+    ...     def getFields(self):
+    ...         return self._fields
+    ...         
+    ...     def getOrder(self, original):
+    ...         categorization = original['categorization']
+    ...         idx = categorization.index('relatedItems')
+    ...         categorization.remove('schemaextender_test_tags')
+    ...         categorization.insert(idx, 'schemaextender_test_tags')
+    ...         
+    ...         settings = original['settings']
+    ...         idx = settings.index('excludeFromNav')
+    ...         settings.remove('schemaextender_test_highlighted')
+    ...         settings.insert(idx, 'schemaextender_test_highlighted')
+    ...         
+    ...         return original
+
+NOTE: These methods are called quite frequently, so it pays to optimise
+them.
+
+This will not show up in the schema yet:
+
+    >>> schema = taggable_doc.Schema()
+    >>> 'schemaextender_test_tags' in schema
+    False
+    >>> 'schemaextender_test_highlighted' in schema
+    False
+
+But look!
+
+    >>> zope.component.provideAdapter(TaggingSchemaExtender)
+
+    >>> schema = taggable_doc.Schema()
+    >>> 'schemaextender_test_tags' in schema
+    True
+    >>> 'schemaextender_test_highlighted' in schema
+    True
+    
+By registering the adapter, we have extended the original schema. Let's also 
+ensure that we got the order right:
+
+    >>> # XXX Test
+
+Note that there are no generated methods involved here. All access is via
+the schema:
+
+    >>> getattr(taggable_doc, 'getSchemaextender_test_tags', None) is None
+    True
+
+Let us verify that getting and setting values will work:
+
+    >>> 
+
+Finally, let's ensure that this works through-the-web, using a browser
+test.
+
+    

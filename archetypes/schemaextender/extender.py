@@ -91,7 +91,7 @@ def instanceSchemaFactory(context):
     to extend the schema. The advantage is that now several packages can do
     additions to the schema without conflicts.
     """
-    extenders = getAdapters((context,), ISchemaExtender)
+    extenders = list(getAdapters((context,), ISchemaExtender))
     if len(extenders) == 0:
         return context.schema
     schema = context.schema.copy()
