@@ -40,32 +40,50 @@ Let's ensure that this applies to a properly created document:
 Now we can set up a schema extender, adding a new LinesField, with a
 KeywordWidget, using a custom default method and a custom vocabulary.
 
+    >>> from archetypes.schemaextender.field import ExternalField
     >>> from Products.Archetypes import atapi
     >>> from Products.CMFCore.utils import getToolByName
 
-    >>> class TagsField(atapi.BooleanField):
+    >>> class TagsField(ExternalField, atapi.LinesField):
     ...
-    ...     storage = atapi.AnnotationStorage()
-    ...     
     ...     def getDefault(self, instance):
     ...         portal_url = getToolByName(instance, 'portal_url')
     ...         portal = portal_url.getPortalObject()
     ...         return portal.getProperty('tags_default')
-    ...     
+    ...
+    ...     def Vocabulary(self, content_instance):
+    ...         portal_url = getToolByName(instance, 'portal_url')
+    ...         portal = portal_url.getPortalObject()
+    ...         return portal.getProperty('tags_vocab')
+
+By mixing in ExternalField (first!), we get standard accessors and mutators 
+which are *not* generated on the class. The default storage is 
+AnnotationStorage. Here, we override getDefault() and Vocabulary() to set the 
+default and the vocabulary.
+
+Sometimes, we may want to do something quite different - for example, we can
+let the field manage a marker interface on the type. Here, we do not need the
+ExternalField mixin. Instead, we provide our own accessors and mutators.
+
+    >>> class IHighlighted(zope.interface.Interfaces):
+    ...     """A highlighted content item.
+    ...     """
+
+    >>> class HighlightedField(atapi.BooleanField):
+    ...
     ...     def getAccessor(self, instance):
     ...         def accessor():
-    ...             return self.get(instance)
+    ...             return IHighlighted.providedBy(instance)
     ...         return accessor
     ...
     ...     def getEditAccessor(self, instance):
-    ...         def edit_accessor():
-    ...             self.storage.get(self.getName(), instance)
-    ...         return edit_accessor
+    ...         return self.getAccessor(instance)
     ...
     ...     def getMutator(self, instance):
     ...         def mutator(value):
-    ...             self.storage.set(self.getName(), instance, value)
+    ...             if value and not IHighlighted.providedBy(instance):
+    ...                 zope.interface.alsoProvides(instance, IHighlighted)
+    ...             else if not value and IHighlighted.providedBy(instance):
+    ...                 zope.interface.noLongerProvides(instance, IHighlighted)
     ...         return mutator
-
-
 
