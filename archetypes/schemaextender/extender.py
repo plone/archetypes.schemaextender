@@ -100,6 +100,7 @@ def instanceSchemaFactory(context):
         fields = extender.getFields()
         for field in fields:
             schema.addField(field)
+            order[field.schemata].append(field.getName())
         orderable = IOrderableSchemaExtender(extender, None)
         if orderable is not None:
             order = orderable.getOrder(order)
