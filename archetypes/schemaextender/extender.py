@@ -1,3 +1,4 @@
+from Globals import DevelopmentMode
 from Products.Archetypes.interfaces import ISchema, IBaseObject
 from archetypes.schemaextender.interfaces import ISchemaExtender
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
@@ -12,20 +13,22 @@ def get_schema_order(schema):
         >>> from archetypes.schemaextender import extender
         >>> extender.get_schema_order(schema)
         {}
+
         >>> schema.addField(atapi.BooleanField('boolean1'))
         >>> sorted(extender.get_schema_order(schema).items())
-        [('default', ('boolean1',))]
+        [('default', ['boolean1'])]
+
         >>> schema.addField(atapi.BooleanField('boolean2', schemata='foo'))
         >>> sorted(extender.get_schema_order(schema).items())
-        [('default', ('boolean1',)), ('foo', ('boolean2',))]
+        [('default', ['boolean1']), ('foo', ['boolean2'])]
     """
     result = {}
     for name in schema.getSchemataNames():
         fields = schema.getSchemataFields(name)
-        result[name] = tuple(x.getName() for x in fields)
+        result[name] = list(x.getName() for x in fields)
     return result
 
-def set_schema_order(schema, new_order):
+def validate_schema_order(schema, new_order):
     current_order = get_schema_order(schema)
 
     current_fields = set()
@@ -44,6 +47,38 @@ def set_schema_order(schema, new_order):
         raise ValueError, "The set of fields in the new order differs "\
                           "from the set of fields in the schema."
 
+def set_schema_order(schema, new_order):
+    """
+        >>> from Products.Archetypes import atapi
+        >>> schema = atapi.Schema()
+        >>> from archetypes.schemaextender import extender
+        >>> schema.addField(atapi.BooleanField('boolean1'))
+        >>> schema.addField(atapi.BooleanField('boolean2'))
+        >>> sorted(extender.get_schema_order(schema).items())
+        [('default', ['boolean1', 'boolean2'])]
+
+        >>> extender.set_schema_order(schema, {'default': ['boolean1'],
+        ...                                    'foo': ['boolean2']})
+        >>> sorted(extender.get_schema_order(schema).items())
+        [('default', ['boolean1']), ('foo', ['boolean2'])]
+
+        >>> extender.set_schema_order(schema, {'foo': ['boolean1', 'boolean2']})
+        >>> sorted(extender.get_schema_order(schema).items())
+        [('foo', ['boolean1', 'boolean2'])]
+
+        >>> extender.set_schema_order(schema, {'foo': ['boolean2', 'boolean1']})
+        >>> sorted(extender.get_schema_order(schema).items())
+        [('foo', ['boolean2', 'boolean1'])]
+    """
+    validate_schema_order(schema, new_order)
+
+    for schemata, fields in new_order.iteritems():
+        for name in fields:
+            field = schema[name]
+            if field.schemata != schemata:
+                schema.changeSchemataForField(name, schemata)
+            schema.moveField(name, pos='bottom')
+
 
 @implementer(ISchema)
 @adapter(IBaseObject)
@@ -56,15 +91,19 @@ def instanceSchemaFactory(context):
     to extend the schema. The advantage is that now several packages can do
     additions to the schema without conflicts.
     """
-    schema = context.schema.copy()
     extenders = getAdapters((context,), ISchemaExtender)
+    if len(extenders) == 0:
+        return context.schema
+    schema = context.schema.copy()
+    order = get_schema_order(schema)
     for name, extender in extenders:
         fields = extender.getFields()
         for field in fields:
             schema.addField(field)
         orderable = IOrderableSchemaExtender(extender, None)
         if orderable is not None:
-            current_order = get_schema_order(schema)
-            new_order = orderable.getOrder(current_order)
-            set_schema_order(schema, new_order)
+            order = orderable.getOrder(order)
+            if DevelopmentMode:
+                validate_schema_order(order)
+    set_schema_order(schema, order)
     return schema
