@@ -1,7 +1,9 @@
 from zope.interface import Interface
 
-
 class ISchemaExtender(Interface):
+    """Interface for adapters that extend the schema.
+    """
+    
     def getFields():
         """Returns fields to be added to the schema."""
 

@@ -44,9 +44,9 @@ def test_suite():
         #    'README.txt', package='archetypes.schemaextender',
         #    test_class=TestCase),
 
-        #ztc.FunctionalDocFileSuite(
-        #    'browser.txt', package='archetypes.schemaextender',
-        #    test_class=TestCase),
+        ztc.FunctionalDocFileSuite(
+            'README.txt', package='archetypes.schemaextender',
+            test_class=TestCase),
         
         ])
 
