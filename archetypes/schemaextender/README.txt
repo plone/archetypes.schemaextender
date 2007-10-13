@@ -52,40 +52,37 @@ KeywordWidget, using a custom default method and a custom vocabulary.
     ...         return portal.getProperty('tags_default')
     ...
     ...     def Vocabulary(self, content_instance):
-    ...         portal_url = getToolByName(instance, 'portal_url')
+    ...         portal_url = getToolByName(content_instance, 'portal_url')
     ...         portal = portal_url.getPortalObject()
-    ...         return portal.getProperty('tags_vocab')
+    ...         return atapi.DisplayList([(x, x) for x in portal.getProperty('tags_vocab')])
 
 By mixing in ExternalField (first!), we get standard accessors and mutators 
 which are *not* generated on the class. The default storage is 
 AnnotationStorage. Here, we override getDefault() and Vocabulary() to set the 
-default and the vocabulary.
+default and the vocabulary. Note that Vocabulary() needs to return an
+Archetypes DisplayList.
 
 Sometimes, we may want to do something quite different - for example, we can
-let the field manage a marker interface on the type. Here, we do not need the
-ExternalField mixin. Instead, we provide our own accessors and mutators.
+let the field manage a marker interface on the type. Here, we override
+get, getRaw and/or set.
 
     >>> class IHighlighted(zope.interface.Interface):
     ...     """A highlighted content item.
     ...     """
 
-    >>> class HighlightedField(atapi.BooleanField):
+    >>> class HighlightedField(ExternalField, atapi.BooleanField):
     ...
-    ...     def getAccessor(self, instance):
-    ...         def accessor():
-    ...             return IHighlighted.providedBy(instance)
-    ...         return accessor
+    ...     def get(self, instance, **kwargs):
+    ...         return IHighlighted.providedBy(instance)
     ...
-    ...     def getEditAccessor(self, instance):
-    ...         return self.getAccessor(instance)
+    ...     def getRaw(self, instance, **kwargs):
+    ...         return self.get(instance, **kwargs)
     ...
-    ...     def getMutator(self, instance):
-    ...         def mutator(value):
-    ...             if value and not IHighlighted.providedBy(instance):
-    ...                 zope.interface.alsoProvides(instance, IHighlighted)
-    ...             elif not value and IHighlighted.providedBy(instance):
-    ...                 zope.interface.noLongerProvides(instance, IHighlighted)
-    ...         return mutator
+    ...     def set(self, instance, value, **kwargs):
+    ...         if value and not IHighlighted.providedBy(instance):
+    ...             zope.interface.alsoProvides(instance, IHighlighted)
+    ...         elif not value and IHighlighted.providedBy(instance):
+    ...             zope.interface.noLongerProvides(instance, IHighlighted)
 
 At this point, we have two custom fields. Now, let's add them to the
 schema of any ITaggable. We also define the order of fields. Here, it is 
@@ -149,7 +146,8 @@ This will not show up in the schema yet:
 
 But look!
 
-    >>> zope.component.provideAdapter(TaggingSchemaExtender)
+    >>> zope.component.provideAdapter(TaggingSchemaExtender, 
+    ...                               name=u"archetypes.schemaextender.tests")
 
     >>> schema = taggable_doc.Schema()
     >>> 'schemaextender_test_tags' in schema
@@ -157,8 +155,8 @@ But look!
     >>> 'schemaextender_test_highlighted' in schema
     True
     
-By registering the adapter, we have extended the original schema. Let's also 
-ensure that we got the order right:
+By registering a named adapter, we have extended the original schema. Let's 
+also ensure that we got the order right:
 
     >>> # XXX Test
 
@@ -170,9 +168,30 @@ the schema:
 
 Let us verify that getting and setting values will work:
 
-    >>> 
+    >>> tags_field = schema.getField('schemaextender_test_tags')
+    >>> tags_field.getDefault(taggable_doc)
+    ('A', 'B')
+    >>> tags_field.Vocabulary(taggable_doc).values()
+    ['A', 'B', 'C']
+    >>> tags_field.get(taggable_doc)
+    ('A', 'B')
+    >>> tags_field.set(taggable_doc, ('B',))
+    >>> tags_field.get(taggable_doc)
+    ('B',)
+
+    >>> highlighted_field = schema.getField('schemaextender_test_highlighted')
+    >>> highlighted_field.get(taggable_doc)
+    False
+    >>> highlighted_field.set(taggable_doc, True)
+    >>> highlighted_field.get(taggable_doc)
+    True
+    >>> IHighlighted.providedBy(taggable_doc)
+    True
+    >>> highlighted_field.set(taggable_doc, False)
+    >>> IHighlighted.providedBy(taggable_doc)
+    False
 
 Finally, let's ensure that this works through-the-web, using a browser
 test.
 
-    
+    >>> 
