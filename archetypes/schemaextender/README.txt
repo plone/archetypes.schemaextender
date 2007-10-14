@@ -7,7 +7,9 @@ an adapter.
 
 For example, let's say we want to add a tags field to a number of content 
 types. The field stores values in an annotation, has a default and accesses
-a vocabulary.
+a vocabulary. In addition, we want to be able to highlight some content items.
+We do this with a marker interface, so that we can register viewlets (say)
+for highlighted items.
 
 For the purposes of the test, we will store the vocabulary and the default
 in properties on the site root.
@@ -39,6 +41,9 @@ Let's ensure that this applies to a properly created document:
 
 Now we can set up a schema extender, adding a new LinesField, with a
 KeywordWidget, using a custom default method and a custom vocabulary.
+
+To create the new field, we subclass the standard LinesField and use the
+methods in the Field class to provide a default and vocabulary.
 
     >>> from archetypes.schemaextender.field import ExternalField
     >>> from Products.Archetypes import atapi
@@ -158,7 +163,11 @@ But look!
 By registering a named adapter, we have extended the original schema. Let's 
 also ensure that we got the order right:
 
-    >>> # XXX Test
+    >>> [f.getName() for f in schema.getSchemataFields('categorization')]
+    ['subject', 'schemaextender_test_tags', 'relatedItems', 'location', 'language']
+
+    >>> [f.getName() for f in schema.getSchemataFields('settings')]
+    ['allowDiscussion', 'schemaextender_test_highlighted', 'excludeFromNav', 'presentation', 'tableContents']
 
 Note that there are no generated methods involved here. All access is via
 the schema:
@@ -194,4 +203,22 @@ Let us verify that getting and setting values will work:
 Finally, let's ensure that this works through-the-web, using a browser
 test.
 
-    >>> 
+    >>> from Products.Five.testbrowser import Browser
+    >>> browser = Browser()
+    >>> folder_url = self.folder.absolute_url()
+    >>> self.portal.error_log._ignored_exceptions = ()
+
+    >>> from Products.PloneTestCase.setup import default_user, default_password
+    >>> browser = Browser()
+    >>> browser.addHeader('Authorization',
+    ...                   'Basic %s:%s' % (default_user, default_password))
+
+    >>> browser.open(folder_url)
+    >>> browser.getLink('Add new').click()
+    >>> browser.getControl('Page').click()
+    >>> browser.getControl('Add').click()
+    >>> browser.url.endswith('/edit')
+    True
+
+    >>> import pdb ; pdb.set_trace( )
+    >>> browser.getControl('Save').click()

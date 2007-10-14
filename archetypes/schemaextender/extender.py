@@ -87,7 +87,7 @@ def instanceSchemaFactory(context):
     
     In BaseObject, the Schema() method will do 'schema = ISchema(self)'. This
     adapter factory is a replacement of the default one in
-    Archetypes.Schema.factory. This one allows you to register named adapter
+    Archetypes.Schema.factory. It allows you to register named adapter
     to extend the schema. The advantage is that now several packages can do
     additions to the schema without conflicts.
     """
