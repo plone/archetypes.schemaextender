@@ -228,11 +228,15 @@ Now we are on the edit page. Let's find and set some values.
 
 This will raise a validation error:
 
-    >>> # XXX
+    >>> 'Please correct the indicated errors.' in browser.contents
+    True
+    >>> 'Value D is not allowed for vocabulary' in browser.contents
+    True
 
 Let's fix that:
 
     >>> browser.getControl('Tags').value = 'A'
+    >>> browser.getControl('Save').click()
 
 At this point, we should have saved the tags and applied the marker interface.
 
