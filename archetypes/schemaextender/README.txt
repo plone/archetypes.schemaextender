@@ -108,7 +108,6 @@ setting the order as well.
     ...                     description="Set some cool tags"
     ...                 ),
     ...             ),
-    ...             
     ...             HighlightedField('schemaextender_test_highlighted',
     ...                 schemata='settings',
     ...                 widget=atapi.BooleanWidget(
@@ -199,6 +198,30 @@ Let us verify that getting and setting values will work:
     >>> IHighlighted.providedBy(taggable_doc)
     False
 
+It is also possible to modify the existing schema more directly, using an
+ISchemaModifier adapter. This is more powerful, but also more dangerous
+(and possibly a bit less efficient for the more common cases of adding
+and re-ordering fields). In general, if a field is deleted or changed to an
+incompatible type, you can expect trouble.
+
+    >>> from archetypes.schemaextender.interfaces import ISchemaModifier
+    >>> class SchemaModifier(object):
+    ...     zope.interface.implements(ISchemaModifier)
+    ...     zope.component.adapts(ITaggable)
+    ...     
+    ...     def __init__(self, context):
+    ...         self.context = context
+    ...     
+    ...     def fiddle(self, schema):
+    ...         schema['description'].widget.label = "Blurb"
+
+    >>> zope.component.provideAdapter(SchemaModifier, 
+    ...                               name=u"archetypes.schemaextender.tests")
+
+    >>> schema = taggable_doc.Schema()
+    >>> schema['description'].widget.label
+    'Blurb'
+    
 Finally, let's ensure that this works through-the-web, using a browser
 test.
 
@@ -217,7 +240,13 @@ test.
     >>> browser.getControl('Page').click()
     >>> browser.getControl('Add').click()
 
-Now we are on the edit page. Let's find and set some values.
+Now we are on the edit page. Let's find and set some values, as well as
+verify that our changed widget took effect.
+
+    >>> 'Description' in browser.contents
+    False
+    >>> 'Blurb' in browser.contents
+    True
 
     >>> browser.getControl('Title').value = "Test doc"
     >>> browser.getControl('Tags').value

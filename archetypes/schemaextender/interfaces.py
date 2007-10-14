@@ -21,3 +21,28 @@ class IOrderableSchemaExtender(ISchemaExtender):
         The method should return a new such dictionary with re-ordered
         lists.
         """
+
+class ISchemaModifier(Interface):
+    """Interface for adapters that modify the existing schema.
+    
+    Before you're allowed to use this method, you must take the Oath
+    of the Schema Modifier. Repeat after us:
+    
+      "I <name>, hereby do solemnly swear, to refrain, under any 
+       circumstances, from using this adapter for Evil. I will not
+       delete fields, change field types or do other breakable and evil
+       things. Promise."
+       
+    Okay, then we can all move on.
+    """
+    
+    def fiddle(schema):
+        """Fiddle the schema.
+        
+        This is a copy of the class' schema, with any ISchemaExtender-provided
+        fields added. The schema may be modified in-place: there is no
+        need to return a value.
+        
+        In general, it will be a bad idea to delete or materially change 
+        fields, since other components may depend on these ones.
+        """

@@ -1,6 +1,7 @@
 from Globals import DevelopmentMode
 from Products.Archetypes.interfaces import ISchema, IBaseObject
 from archetypes.schemaextender.interfaces import ISchemaExtender
+from archetypes.schemaextender.interfaces import ISchemaModifier
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
 from zope.component import adapter, getAdapters
 from zope.interface import implementer
@@ -101,10 +102,11 @@ def instanceSchemaFactory(context):
         for field in fields:
             schema.addField(field)
             order[field.schemata].append(field.getName())
-        orderable = IOrderableSchemaExtender(extender, None)
-        if orderable is not None:
-            order = orderable.getOrder(order)
+        if IOrderableSchemaExtender.providedBy(extender):
+            order = extender.getOrder(order)
             if DevelopmentMode:
                 validate_schema_order(order)
     set_schema_order(schema, order)
+    for name, modifier in getAdapters((context,), ISchemaModifier):
+        modifier.fiddle(schema)
     return schema
