@@ -40,7 +40,7 @@ Let's ensure that this applies to a properly created document:
     True
 
 Now we can set up a schema extender, adding a new LinesField, with a
-KeywordWidget, using a custom default method and a custom vocabulary.
+LinesWidget, using a custom default method and a custom vocabulary.
 
 To create the new field, we subclass the standard LinesField and use the
 methods in the Field class to provide a default and vocabulary.
@@ -71,9 +71,7 @@ Sometimes, we may want to do something quite different - for example, we can
 let the field manage a marker interface on the type. Here, we override
 get, getRaw and/or set.
 
-    >>> class IHighlighted(zope.interface.Interface):
-    ...     """A highlighted content item.
-    ...     """
+    >>> from archetypes.schemaextender.tests import IHighlighted
 
     >>> class HighlightedField(ExternalField, atapi.BooleanField):
     ...
@@ -104,8 +102,9 @@ setting the order as well.
     ...     _fields = [
     ...             TagsField('schemaextender_test_tags',
     ...                 schemata='categorization',
-    ...                 widget=atapi.KeywordWidget(
-    ...                     title="Tags",
+    ...                 enforceVocabulary=True,
+    ...                 widget=atapi.LinesWidget(
+    ...                     label="Tags",
     ...                     description="Set some cool tags"
     ...                 ),
     ...             ),
@@ -113,7 +112,7 @@ setting the order as well.
     ...             HighlightedField('schemaextender_test_highlighted',
     ...                 schemata='settings',
     ...                 widget=atapi.BooleanWidget(
-    ...                     title="Highlighted",
+    ...                     label="Highlighted",
     ...                     description="Highlight this item"
     ...                 ),
     ...             ),
@@ -217,8 +216,30 @@ test.
     >>> browser.getLink('Add new').click()
     >>> browser.getControl('Page').click()
     >>> browser.getControl('Add').click()
-    >>> browser.url.endswith('/edit')
-    True
 
-    >>> import pdb ; pdb.set_trace( )
+Now we are on the edit page. Let's find and set some values.
+
+    >>> browser.getControl('Title').value = "Test doc"
+    >>> browser.getControl('Tags').value
+    'A\nB'
+    >>> browser.getControl('Tags').value = 'D'
+    >>> browser.getControl('Highlighted').click()
     >>> browser.getControl('Save').click()
+
+This will raise a validation error:
+
+    >>> # XXX
+
+Let's fix that:
+
+    >>> browser.getControl('Tags').value = 'A'
+
+At this point, we should have saved the tags and applied the marker interface.
+
+    >>> test_doc = getattr(self.folder, 'test-doc')
+    >>> tags_field = test_doc.Schema()['schemaextender_test_tags']
+    >>> tags_field.get(test_doc)
+    ('A',)
+    
+    >>> IHighlighted.providedBy(test_doc)
+    True

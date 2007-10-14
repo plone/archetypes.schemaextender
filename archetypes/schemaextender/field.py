@@ -16,7 +16,7 @@ class ExternalField(object):
 
     def getEditAccessor(self, instance):
         def edit_accessor(**kw):
-            self.getRaw(instance, **kw)
+            return self.getRaw(instance, **kw)
         return edit_accessor
 
     def getMutator(self, instance):
