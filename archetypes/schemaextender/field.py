@@ -23,3 +23,9 @@ class ExtensionField(object):
         def mutator(value, **kw):
             self.set(instance, value, **kw)
         return mutator
+
+    def getIndexAccessor(self, instance):
+        if getattr(self, 'index_method', None) == '_at_edit_accessor':
+            return self.getEditAccessor(instance)
+        else:
+            return self.getAccessor(instance)
