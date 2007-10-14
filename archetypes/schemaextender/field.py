@@ -1,6 +1,6 @@
 from Products.Archetypes import atapi
 
-class ExternalField(object):
+class ExtensionField(object):
     """Mix-in class to make Archetypes fields not depend on generated
     accessors and mutators, and use AnnotationStorage by default.
     

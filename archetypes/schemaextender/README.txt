@@ -45,11 +45,11 @@ LinesWidget, using a custom default method and a custom vocabulary.
 To create the new field, we subclass the standard LinesField and use the
 methods in the Field class to provide a default and vocabulary.
 
-    >>> from archetypes.schemaextender.field import ExternalField
+    >>> from archetypes.schemaextender.field import ExtensionField
     >>> from Products.Archetypes import atapi
     >>> from Products.CMFCore.utils import getToolByName
 
-    >>> class TagsField(ExternalField, atapi.LinesField):
+    >>> class TagsField(ExtensionField, atapi.LinesField):
     ...
     ...     def getDefault(self, instance):
     ...         portal_url = getToolByName(instance, 'portal_url')
@@ -61,7 +61,7 @@ methods in the Field class to provide a default and vocabulary.
     ...         portal = portal_url.getPortalObject()
     ...         return atapi.DisplayList([(x, x) for x in portal.getProperty('tags_vocab')])
 
-By mixing in ExternalField (first!), we get standard accessors and mutators 
+By mixing in ExtensionField (first!), we get standard accessors and mutators 
 which are *not* generated on the class. The default storage is 
 AnnotationStorage. Here, we override getDefault() and Vocabulary() to set the 
 default and the vocabulary. Note that Vocabulary() needs to return an
@@ -73,7 +73,7 @@ get, getRaw and/or set.
 
     >>> from archetypes.schemaextender.tests import IHighlighted
 
-    >>> class HighlightedField(ExternalField, atapi.BooleanField):
+    >>> class HighlightedField(ExtensionField, atapi.BooleanField):
     ...
     ...     def get(self, instance, **kwargs):
     ...         return IHighlighted.providedBy(instance)
