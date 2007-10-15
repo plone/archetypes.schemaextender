@@ -1,6 +1,6 @@
-========================
-archetypes.schemaxtender
-========================
+=========================
+archetypes.schemaextender
+=========================
 
 This package allows you to inject new fields into an Archetypes schema, using
 an adapter. 
