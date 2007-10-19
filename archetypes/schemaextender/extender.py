@@ -105,7 +105,7 @@ def instanceSchemaFactory(context):
         if IOrderableSchemaExtender.providedBy(extender):
             order = extender.getOrder(order)
             if DevelopmentMode:
-                validate_schema_order(order)
+                validate_schema_order(schema, order)
     set_schema_order(schema, order)
     for name, modifier in getAdapters((context,), ISchemaModifier):
         modifier.fiddle(schema)
