@@ -1,5 +1,6 @@
 from Globals import DevelopmentMode
 from Products.Archetypes.interfaces import ISchema, IBaseObject
+from Products.Archetypes.utils import OrderedDict
 from archetypes.schemaextender.interfaces import ISchemaExtender
 from archetypes.schemaextender.interfaces import ISchemaModifier
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
@@ -23,7 +24,7 @@ def get_schema_order(schema):
         >>> sorted(extender.get_schema_order(schema).items())
         [('default', ['boolean1']), ('foo', ['boolean2'])]
     """
-    result = {}
+    result = OrderedDict()
     for name in schema.getSchemataNames():
         fields = schema.getSchemataFields(name)
         result[name] = list(x.getName() for x in fields)
@@ -72,8 +73,9 @@ def set_schema_order(schema, new_order):
         [('foo', ['boolean2', 'boolean1'])]
     """
     validate_schema_order(schema, new_order)
-
-    for schemata, fields in new_order.iteritems():
+    for schemata in new_order.keys():
+        # iteritems would be nicer, but isnt supported by OrderedDict
+        fields = new_order[schemata]
         for name in fields:
             field = schema[name]
             if field.schemata != schemata:
@@ -101,6 +103,8 @@ def instanceSchemaFactory(context):
         fields = extender.getFields()
         for field in fields:
             schema.addField(field)
+            if not field.schemata in order.keys():
+                order[field.schemata] = list()
             order[field.schemata].append(field.getName())
         if IOrderableSchemaExtender.providedBy(extender):
             order = extender.getOrder(order)
