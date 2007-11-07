@@ -40,4 +40,4 @@ recipe to manage your project, you can do this:
     $ ./bin/buildout
         
 You can skip the ZCML slug if you are going to explicitly include the package
-from another package's configure.zcml file.
+from another package's overrides.zcml file.
