@@ -1,7 +1,5 @@
-archetypes.schemaextender Package Readme
+archetypes.schemaextender
 =========================
 
-Overview
---------
+Please see the README.txt in the archetypes/schemaextender subdirectory.
 
-Dynamically extend Archetypes schemas with named adapters.

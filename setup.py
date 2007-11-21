@@ -5,9 +5,7 @@ version = '1.0a2'
 setup(name='archetypes.schemaextender',
       version=version,
       description="Dynamically extend Archetypes schemas with named adapters.",
-      long_description="""\
-""",
-      # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
+      long_description=open("archetypes/schemaextender/README.txt").read(),
       classifiers=[
         "Framework :: Plone",
         "Framework :: Zope2",
