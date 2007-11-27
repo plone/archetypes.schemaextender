@@ -1,9 +1,10 @@
 from Globals import DevelopmentMode
-from Products.Archetypes.interfaces import ISchema, IBaseObject
+from Products.Archetypes.interfaces import ISchema
 from Products.Archetypes.utils import OrderedDict
 from archetypes.schemaextender.interfaces import ISchemaExtender
 from archetypes.schemaextender.interfaces import ISchemaModifier
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
+from archetypes.schemaextender.interfaces import IExtensible
 from zope.component import adapter, getAdapters
 from zope.interface import implementer
 
@@ -84,7 +85,7 @@ def set_schema_order(schema, new_order):
 
 
 @implementer(ISchema)
-@adapter(IBaseObject)
+@adapter(IExtensible)
 def instanceSchemaFactory(context):
     """Default schema adapter factory.
     

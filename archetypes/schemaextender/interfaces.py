@@ -1,5 +1,9 @@
 from zope.interface import Interface
 
+class IExtensible(Interface):
+    """Marker interface applied to extensible content types
+    """
+
 class ISchemaExtender(Interface):
     """Interface for adapters that extend the schema"""
     
