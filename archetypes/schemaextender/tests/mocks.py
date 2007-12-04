@@ -41,9 +41,9 @@ class SchemaModifier(object):
 class MockField:
     __implements__ = IField
     type = "mock"
-    schemata = "default"
-    def __init__(self, name="MockField"):
+    def __init__(self, name="MockField", schemata="default"):
         self.name=name
+        self.schemata=schemata
     def toString(self):
         return "MockField"
     def getName(self):
