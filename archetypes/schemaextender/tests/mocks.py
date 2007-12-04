@@ -24,7 +24,20 @@ class OrderableExtender(Extender):
     adapts(ExtensibleType)
 
     def getOrder(self, original):
-        original["default"][:0]=[f.getName() for f in self.fields]
+        """"Overly complex logic: put our fields first."""
+        if not self.fields:
+            return original
+        toadd=[]
+        for field in self.fields:
+            field=field.getName()
+            try:
+                index=original["default"].index(field)
+            except ValueError:
+                continue
+            del original["default"][index]
+            toadd.append(field)
+
+        original["default"]=toadd + original["default"]
         return original
 
 
