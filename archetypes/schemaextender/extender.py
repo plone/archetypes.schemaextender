@@ -10,26 +10,17 @@ from zope.interface import implementer
 
 
 def get_schema_order(schema):
-    """
-        >>> from Products.Archetypes import atapi
-        >>> schema = atapi.Schema()
-        >>> from archetypes.schemaextender import extender
-        >>> extender.get_schema_order(schema)
-        {}
+    """Return the order of all schemata and their fields.
 
-        >>> schema.addField(atapi.BooleanField('boolean1'))
-        >>> sorted(extender.get_schema_order(schema).items())
-        [('default', ['boolean1'])]
-
-        >>> schema.addField(atapi.BooleanField('boolean2', schemata='foo'))
-        >>> sorted(extender.get_schema_order(schema).items())
-        [('default', ['boolean1']), ('foo', ['boolean2'])]
+    The ordering is returned as an OrderedList for schemata
+    with the schemata names as keys fields names as values.
     """
     result = OrderedDict()
     for name in schema.getSchemataNames():
         fields = schema.getSchemataFields(name)
         result[name] = list(x.getName() for x in fields)
     return result
+
 
 def validate_schema_order(schema, new_order):
     current_order = get_schema_order(schema)
@@ -51,27 +42,15 @@ def validate_schema_order(schema, new_order):
                           "from the set of fields in the schema."
 
 def set_schema_order(schema, new_order):
-    """
-        >>> from Products.Archetypes import atapi
-        >>> schema = atapi.Schema()
-        >>> from archetypes.schemaextender import extender
-        >>> schema.addField(atapi.BooleanField('boolean1'))
-        >>> schema.addField(atapi.BooleanField('boolean2'))
-        >>> sorted(extender.get_schema_order(schema).items())
-        [('default', ['boolean1', 'boolean2'])]
+    """Update the order of all schemata and their fields.
 
-        >>> extender.set_schema_order(schema, {'default': ['boolean1'],
-        ...                                    'foo': ['boolean2']})
-        >>> sorted(extender.get_schema_order(schema).items())
-        [('default', ['boolean1']), ('foo', ['boolean2'])]
+    The order is given is returned as a dictionary 
+    with the schemata names as keys fields names as values. It is
+    strongly advised to use an OrderedDictionary to prevent the
+    schemata from being reorder in unexpected ways.
 
-        >>> extender.set_schema_order(schema, {'foo': ['boolean1', 'boolean2']})
-        >>> sorted(extender.get_schema_order(schema).items())
-        [('foo', ['boolean1', 'boolean2'])]
-
-        >>> extender.set_schema_order(schema, {'foo': ['boolean2', 'boolean1']})
-        >>> sorted(extender.get_schema_order(schema).items())
-        [('foo', ['boolean2', 'boolean1'])]
+    It is an error if existing fields do not appear in the new
+    ordering, or if fields names are added.
     """
     validate_schema_order(schema, new_order)
     for schemata in new_order.keys():
