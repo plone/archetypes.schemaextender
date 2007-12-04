@@ -8,50 +8,21 @@
 # the exact path may differ pending your directory layout.
 
 import time
-from zope.interface import implements
-from zope.interface import implementsOnly
 from zope.interface import classImplements
-from zope.component import adapts
 from zope.component import provideAdapter
 from zope.component import getGlobalSiteManager
 from archetypes.schemaextender.extender import instanceSchemaFactory
 from archetypes.schemaextender.interfaces import IExtensible
-from archetypes.schemaextender.interfaces import ISchemaExtender
-from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
-from archetypes.schemaextender.interfaces import ISchemaModifier
-from Products.Archetypes.public import BaseObject
-
-class SimpleType(BaseObject):
-    """A very simple AT type."""
+from archetypes.schemaextender.tests.mocks import ExtensibleType
+from archetypes.schemaextender.tests.mocks import Extender
+from archetypes.schemaextender.tests.mocks import OrderableExtender
+from archetypes.schemaextender.tests.mocks import SchemaModifier
 
 
-class Extender(object):
-    implements(ISchemaExtender)
-    adapts(SimpleType)
-
-    def __init__(self, context):
-        pass
-    def getFields(self):
-        return []
-
-class OrderableExtender(Extender):
-    implementsOnly(IOrderableSchemaExtender)
-    adapts(SimpleType)
-
-    def getOrder(self, original):
-        return original
-
-class SchemaModifier(object):
-    implements(ISchemaModifier)
-    adapts(SimpleType)
-    def __init__(self, context):
-        pass
-    def fiddle(self, schema):
-        pass
 
 def bench():
     i=5000
-    a=SimpleType("id")
+    a=ExtensibleType("id")
     start=time.time()
     while i:
         a._updateSchema()
@@ -62,7 +33,7 @@ def bench():
 print "Starting benchmark"
 print "Benchmark without atse: %.2f seconds" % bench()
 
-classImplements(SimpleType, IExtensible)
+classImplements(ExtensibleType, IExtensible)
 provideAdapter(instanceSchemaFactory)
 sm=getGlobalSiteManager()
 
