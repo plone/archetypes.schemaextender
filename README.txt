@@ -12,7 +12,7 @@ that can be set to toggle special behaviour.
 schemaextender hooks into the Archetypes framework by registering
 an ISchema adapter for BaseContent and BaseFolder, making it responsible
 for providing the schema for all types derived from those classes. This
-includes all standard Plone content types. Since only know ISchema adapter
+includes all standard Plone content types. Since only one ISchema adapter
 can be active schemaextender provides its own mechanism to modify schemas
 using named adapters.
 
@@ -31,6 +31,7 @@ There are three types of adapters available:
 The adapter types are documented in the ''interfaces.py'' file in
 archetypes.schemaextender.
 
+
 Simple example
 ==============
 
@@ -46,7 +47,8 @@ Plone document type. First we need to create a field class::
 schemaextender can not use the standard Archetypes fields directly
 since those rely on the class generation logic generating accessors
 and mutator methods. By using the ExtensionField mix-in class we can
-still use them.
+still use them. Make sure the ExtensionField mix-in comes first, so it
+properly overwrites the standard methods.
 
 Next we have to create an adapter that will add this field::
 
@@ -73,6 +75,10 @@ Next we have to create an adapter that will add this field::
          def getFields(self):
              return self.fields
 
+Try to store the fields on the class, that way they aren't created each
+time the getFields method gets called. Generally you should make sure
+getFields does as few things as possible, because it's called very often.
+
 The final step is registering this adapter with the Zope component
 architecture. Since we already declared the interface we provide and
 which type of object we adapt this can be done very quickly in
@@ -80,7 +86,6 @@ configure.zcml::
 
     <include package="archetypes.schemaextender" />
     <adapter factory=".extender.PageExtender" />
-
 
 
 Custom fields

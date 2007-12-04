@@ -129,7 +129,6 @@ def instanceSchemaFactory(context):
         set_schema_order(schema, order)
 
     if len(modifiers) > 0:
-        # the schema is modified, so we need a deep copy
         for name, modifier in modifiers:
             modifier.fiddle(schema)
 
