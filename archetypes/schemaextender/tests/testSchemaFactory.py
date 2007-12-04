@@ -1,59 +1,9 @@
 import unittest
-from zope.interface import implements
-from zope.interface import implementsOnly
-from zope.component import adapts
-
-from archetypes.schemaextender.tests.case import ExtensibleType
-from archetypes.schemaextender.tests.case import TestCase
-from zope.component import provideAdapter
-from archetypes.schemaextender.interfaces import ISchemaExtender
-from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
-from archetypes.schemaextender.interfaces import ISchemaModifier
-
 from archetypes.schemaextender.extender import instanceSchemaFactory
-from Products.Archetypes.public import Schema
-from Products.Archetypes.interfaces.field import IField
-
-class Extender(object):
-    implements(ISchemaExtender)
-    adapts(ExtensibleType)
-
-    fields =  []
-
-    def __init__(self, context):
-        pass
-    def getFields(self):
-        return self.fields
-
-
-class OrderableExtender(Extender):
-    implementsOnly(IOrderableSchemaExtender)
-    adapts(ExtensibleType)
-
-    def getOrder(self, original):
-        original["default"][:0]=[f.getName() for f in self.fields]
-        return original
-
-
-class SchemaModifier(object):
-    implements(ISchemaModifier)
-    adapts(ExtensibleType)
-
-    def __init__(self, context):
-        pass
-    def fiddle(self, schema):
-        pass
-
-
-class MockField:
-    __implements__ = IField
-    type = "mock"
-    schemata = "default"
-    def toString(self):
-        return "MockField"
-    def getName(self):
-        return "MockField"
-
+from archetypes.schemaextender.tests.case import TestCase
+from archetypes.schemaextender.tests.mocks import Extender
+from archetypes.schemaextender.tests.mocks import OrderableExtender
+from archetypes.schemaextender.tests.mocks import MockField
 
 class NonExtenderTests(TestCase):
     def testNoExtenderMeansNoChanges(self):
