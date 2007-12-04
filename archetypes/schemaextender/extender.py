@@ -100,9 +100,6 @@ def instanceSchemaFactory(context):
     if len(extenders) == 0 and len(modifiers) == 0:
         return context.schema
 
-    # get the order of the original schema
-    order = get_schema_order(context.schema)
-
     # as long as the schema is only extended, we can reuse all fields
     # if it's modified later, then we need a full copy, see modifiers below
     # the __add__ functions doesn't copy the field, so we use that by first
@@ -111,17 +108,23 @@ def instanceSchemaFactory(context):
     schema = context.schema.__class__() + context.schema
 
     # loop through all schema extenders
+    order = None
     for name, extender in extenders:
         for field in extender.getFields():
             schema.addField(field)
-            if not field.schemata in order.keys():
-                order[field.schemata] = list()
-            order[field.schemata].append(field.getName())
+            if order is not None:
+                if not field.schemata in order.keys():
+                    order[field.schemata] = list()
+                order[field.schemata].append(field.getName())
         if IOrderableSchemaExtender.providedBy(extender):
+            if order is None:
+                # we need to get the current order first
+                order = get_schema_order(schema)
             order = extender.getOrder(order)
             if DevelopmentMode:
                 validate_schema_order(schema, order)
-    set_schema_order(schema, order)
+    if order is not None:
+        set_schema_order(schema, order)
 
     if len(modifiers) > 0:
         # the schema is modified, so we need a deep copy
