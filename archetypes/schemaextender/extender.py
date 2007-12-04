@@ -96,13 +96,23 @@ def instanceSchemaFactory(context):
     additions to the schema without conflicts.
     """
     extenders = list(getAdapters((context,), ISchemaExtender))
-    if len(extenders) == 0:
+    modifiers = list(getAdapters((context,), ISchemaModifier))
+    if len(extenders) == 0 and len(modifiers) == 0:
         return context.schema
-    schema = context.schema.copy()
-    order = get_schema_order(schema)
+
+    # get the order of the original schema
+    order = get_schema_order(context.schema)
+
+    # as long as the schema is only extended, we can reuse all fields
+    # if it's modified later, then we need a full copy, see modifiers below
+    # the __add__ functions doesn't copy the field, so we use that by first
+    # creating an empty schema of the same class and then add the existing
+    # one to it.
+    schema = context.schema.__class__() + context.schema
+
+    # loop through all schema extenders
     for name, extender in extenders:
-        fields = extender.getFields()
-        for field in fields:
+        for field in extender.getFields():
             schema.addField(field)
             if not field.schemata in order.keys():
                 order[field.schemata] = list()
@@ -112,6 +122,11 @@ def instanceSchemaFactory(context):
             if DevelopmentMode:
                 validate_schema_order(schema, order)
     set_schema_order(schema, order)
-    for name, modifier in getAdapters((context,), ISchemaModifier):
-        modifier.fiddle(schema)
+
+    if len(modifiers) > 0:
+        # the schema is modified, so we need a deep copy
+        schema = schema.copy()
+        for name, modifier in modifiers:
+            modifier.fiddle(schema)
+
     return schema
