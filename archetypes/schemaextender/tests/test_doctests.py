@@ -15,10 +15,6 @@ import archetypes.schemaextender
 # This is used in one of the tests - it needs to be defined here so
 # that it can be pickled by the ZODB.
 
-from zope.interface import Interface
-class IHighlighted(Interface):
-    """A highlighted content item.
-    """
 
 class TestCase(ptc.PloneTestCase):
     class layer(PloneSite):
