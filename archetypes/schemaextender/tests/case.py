@@ -7,9 +7,6 @@ from archetypes.schemaextender.interfaces import IExtensible
 from Products.Archetypes.public import BaseObject
 
 
-class NonExtensibleType(BaseObject):
-    """A trivial non extensible type."""
-
 class ExtensibleType(BaseObject):
     """A very simple extensible type."""
     implements(IExtensible)
@@ -19,6 +16,7 @@ class TestCase(unittest.TestCase):
     def setUp(self):
         self._adapters=[]
         self.provideAdapter(instanceSchemaFactory)
+        self.instance=ExtensibleType("id")
 
     def tearDown(self):
         sm=getGlobalSiteManager()
