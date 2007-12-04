@@ -1,3 +1,12 @@
+# This is a very simple benchmark to see how schemaextender affects
+# the performance of Archetypes.
+#
+# You can run it like so:
+#
+#    bin/instance run src/archetypes.schemaextender/archetypes/schemaextender/benchmark.py
+#
+# the exact path may differ pending your directory layout.
+
 import time
 from zope.interface import implements
 from zope.interface import implementsOnly
