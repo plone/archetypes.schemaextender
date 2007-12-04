@@ -46,4 +46,7 @@ class ISchemaModifier(Interface):
         
         In general, it will be a bad idea to delete or materially change 
         fields, since other components may depend on these ones.
+        
+        If you change any fields, then you are responsible to make a copy of
+        them first and place the copy in the schema.
         """

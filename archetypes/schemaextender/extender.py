@@ -128,7 +128,6 @@ def instanceSchemaFactory(context):
 
     if len(modifiers) > 0:
         # the schema is modified, so we need a deep copy
-        schema = schema.copy()
         for name, modifier in modifiers:
             modifier.fiddle(schema)
 

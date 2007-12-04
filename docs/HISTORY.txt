@@ -2,7 +2,25 @@ Changelog for archetypes.schemaextender
 
     (name of developer listed in brackets)
 
-archetypes.schemaextender - 0.1 Unreleased
+archetypes.schemaextender - 1.0a2
+
+    - Schema modifiers implementing ISchemaModifier are now responsible for
+      copying fields they modify. See README and the doc strings.
+      [fschulze]
+
+    - Added a simple benchmark and made some optimizations by avoiding a lot
+      of field copying.
+      [fschulze, wiggy]
+
+    - Use a marker interface instead of overrides.zcml - this means you don't
+      need to muck with overrides in dependent products.
+      [optilude]
+
+    - Added code to allow addition of new schemata. We need an ordered
+      dictionary to not bork the order of the schemata.
+      [yenzenz]
+
+archetypes.schemaextender - 1.0a1
 
     - Initial package structure.
       [zopeskel]

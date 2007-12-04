@@ -200,9 +200,13 @@ Let us verify that getting and setting values will work:
 
 It is also possible to modify the existing schema more directly, using an
 ISchemaModifier adapter. This is more powerful, but also more dangerous
-(and possibly a bit less efficient for the more common cases of adding
-and re-ordering fields). In general, if a field is deleted or changed to an
-incompatible type, you can expect trouble.
+(and quite a bit slower for the more common cases of adding and re-ordering
+fields). In general, if a field is deleted or changed to an incompatible
+type, you can expect trouble.
+The schema modifier is responsible of making copies of the fields it modifies
+in the schema and replace the original ones. For this the copy method of the
+field and the addField method of the schema can be used. If a field already
+exists in a schema, the addField method updates it's internals accordingly.
 
     >>> from archetypes.schemaextender.interfaces import ISchemaModifier
     >>> class SchemaModifier(object):
@@ -213,7 +217,9 @@ incompatible type, you can expect trouble.
     ...         self.context = context
     ...     
     ...     def fiddle(self, schema):
-    ...         schema['description'].widget.label = "Blurb"
+    ...         field = schema['description'].copy()
+    ...         field.widget.label = "Blurb"
+    ...         schema.addField(field)
 
     >>> zope.component.provideAdapter(SchemaModifier, 
     ...                               name=u"archetypes.schemaextender.tests")
