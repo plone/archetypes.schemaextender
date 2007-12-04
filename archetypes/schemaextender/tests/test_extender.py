@@ -8,6 +8,8 @@ from archetypes.schemaextender.tests.case import TestCase
 from zope.component import provideAdapter
 from archetypes.schemaextender.interfaces import ISchemaExtender
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
+from archetypes.schemaextender.interfaces import ISchemaModifier
+
 from archetypes.schemaextender.extender import instanceSchemaFactory
 from Products.Archetypes.public import Schema
 from Products.Archetypes.interfaces.field import IField
@@ -23,6 +25,7 @@ class Extender(object):
     def getFields(self):
         return self.fields
 
+
 class OrderableExtender(Extender):
     implementsOnly(IOrderableSchemaExtender)
     adapts(ExtensibleType)
@@ -30,6 +33,17 @@ class OrderableExtender(Extender):
     def getOrder(self, original):
         original["default"][:0]=[f.getName() for f in self.fields]
         return original
+
+
+class SchemaModifier(object):
+    implements(ISchemaModifier)
+    adapts(ExtensibleType)
+
+    def __init__(self, context):
+        pass
+    def fiddle(self, schema):
+        pass
+
 
 class MockField:
     __implements__ = IField
@@ -39,6 +53,7 @@ class MockField:
         return "MockField"
     def getName(self):
         return "MockField"
+
 
 class NonExtenderTests(TestCase):
     def testNoExtenderMeansNoChanges(self):
@@ -66,6 +81,7 @@ class ExtenderTests(TestCase):
         schema=instanceSchemaFactory(self.instance)
         self.assertEqual(schema.keys().count("MockField"), 1)
 
+
 class OrderableExtenderTests(ExtenderTests):
     def setUp(self):
         TestCase.setUp(self)
@@ -77,6 +93,7 @@ class OrderableExtenderTests(ExtenderTests):
         schema=instanceSchemaFactory(self.instance)
         order=[f.getName() for f in schema.getSchemataFields("default")]
         self.assertEqual(order[0], "MockField")
+
 
 def test_suite():
     suite=unittest.TestSuite()
