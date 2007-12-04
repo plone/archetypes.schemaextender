@@ -91,15 +91,27 @@ requirement is that you need to have ExtensionField as the first parent
 class for your field type. As an example here is a field that toggles a
 marker interface on an object::
 
+    from zope.interface import Interface
+    from zope.interface import alsoProvides
+    from zope.interface import noLongerProvides
+    from Products.Archetypes.public import BooleanField
+    from archetypes.schemaextender.field import ExtensionField
+
     def addMarkerInterface(obj, *ifaces):
         for iface in ifaces:
             if not iface.providedBy(obj):
                 alsoProvides(obj, iface)
 
+
     def removeMarkerInterface(obj, *ifaces):
         for iface in ifaces:
             if iface.providedBy(obj):
                 noLongerProvides(obj, iface)
+
+
+    class ISuperPower(Interface):
+        """Marker interface for classes that can do amazing things."""
+
 
     class InterfaceMarkerField(ExtensionField, BooleanField):
         def get(self, instance, **kwargs):
