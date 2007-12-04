@@ -36,6 +36,9 @@ class ISchemaModifier(Interface):
        
     Okay, then we can all move on.
     """
+
+    def __init__(context):
+        """Constructor. Takes the instance whose schema we are frobbing."""
     
     def fiddle(schema):
         """Fiddle the schema.
