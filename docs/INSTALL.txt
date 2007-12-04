@@ -1,43 +1,50 @@
-archetypes.schemaextender Installation
-=======================
+Installation
+============
 
-To install archetypes.schemaextender into the global Python environment (or a workingenv),
-using a traditional Zope 2 instance, you can do this:
+Installing without buildout
+---------------------------
 
- * When you're reading this you have probably already run 
-   ``easy_install archetypes.schemaextender``. Find out how to install setuptools
-   (and EasyInstall) here:
-   http://peak.telecommunity.com/DevCenter/EasyInstall
+You can install archetypes.schemaextender in either the system python path
+or in the lib/python directory of your Zope instance. If you have setuptools
+installed you can do this using easy_install::
 
- * Create a file called ``archetypes.schemaextender-configure.zcml`` in the
-   ``/path/to/instance/etc/package-includes`` directory.  The file
-   should only contain this::
+  easy_install archetypes.schemaextender
 
-       <include package="archetypes.schemaextender" file="overrides.zcml" />
+If you do not have setuptools you can install it manually using the setup.py
+script in the package source. If you want to install inside your Zope
+instance instead of system wide you can its ''--prefix='' option to install
+in the ''lib/python'' directory of your Zope instance.
 
+After installing the package it needs to be registered in your Zope
+instance.  This can be done by putting a
+archetypes.schemaextender-configure.zcml file in the etc/pakage-includes
+directory with this content::
 
-Alternatively, if you are using zc.buildout and the plone.recipe.zope2instance
-recipe to manage your project, you can do this:
+  <include package="archetypes.schemaextender" />
 
- * Add ``archetypes.schemaextender`` to the list of eggs to install, e.g.:
- 
-    [buildout]
-    ...
-    eggs =
-        ...
-        archetypes.schemaextender
-        
-  * Tell the plone.recipe.zope2instance recipe to install a ZCML slug:
-  
-    [instance]
-    recipe = plone.recipe.zope2instance
-    ...
-    zcml =
-        archetypes.schemaextender-overrides
-        
-  * Re-run buildout, e.g. with:
-  
-    $ ./bin/buildout
-        
-You can skip the ZCML slug if you are going to explicitly include the package
-from another package's overrides.zcml file.
+or, alternatively, you can add that line to the configure.zcml in a
+package or Product that is already registered.
+
+Installing with buildout
+------------------------
+
+If you are using `buildout`_ to manage your instance installing
+archetypes.schemaextender is even simpler. You can install it by adding
+it to the eggs line for your instance::
+
+  [instance]
+  eggs = archetypes.schemaextender
+  zcml = archetypes.schemaextender
+
+The last line tells buildout to generate a zcml snippet that tells Zope
+to configure archetypes.schemaextender.
+
+If another package depends on the archetypes.schemaextender egg or includes
+its zcml directly you do not need to specify anything in the buildout
+configuration: buildout will detect this automatically.
+
+After updating the configuration you need to run the ''bin/buildout'', which
+will take care of updating your system.
+
+.. _buildout: http://pypi.python.org/pypi/zc.buildout
+

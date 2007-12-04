@@ -5,11 +5,12 @@ version = '1.0a2'
 setup(name='archetypes.schemaextender',
       version=version,
       description="Dynamically extend Archetypes schemas with named adapters.",
-      long_description=open("archetypes/schemaextender/README.txt").read(),
+      long_description=open("README.txt").read() + \
+                        open("docs/INSTALL.txt").read() + \
+                        open("docs/HISTORY.txt").read(),
       classifiers=[
         "Framework :: Plone",
         "Framework :: Zope2",
-        "Framework :: Zope3",
         "Programming Language :: Python",
         "Topic :: Software Development :: Libraries :: Python Modules",
         ],
@@ -24,9 +25,5 @@ setup(name='archetypes.schemaextender',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
       ],
-      entry_points="""
-      # -*- Entry points: -*-
-      """,
       )

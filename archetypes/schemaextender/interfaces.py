@@ -7,6 +7,9 @@ class IExtensible(Interface):
 class ISchemaExtender(Interface):
     """Interface for adapters that extend the schema"""
     
+    def __init__(context):
+        """Constructor. Takes the instance whose schema we are frobbing."""
+    
     def getFields():
         """Return a list of fields to be added to the schema."""
 
@@ -21,6 +24,10 @@ class IOrderableSchemaExtender(ISchemaExtender):
         
         The method should return a new such dictionary with re-ordered
         lists.
+
+        It is recommended to use an OrderedDict (available as
+        Products.Archetypes.utils.OrderedDict) to guarantee proper ordering
+        of schemata.
         """
 
 class ISchemaModifier(Interface):
@@ -36,6 +43,9 @@ class ISchemaModifier(Interface):
        
     Okay, then we can all move on.
     """
+
+    def __init__(context):
+        """Constructor. Takes the instance whose schema we are frobbing."""
     
     def fiddle(schema):
         """Fiddle the schema.
@@ -47,6 +57,6 @@ class ISchemaModifier(Interface):
         In general, it will be a bad idea to delete or materially change 
         fields, since other components may depend on these ones.
         
-        If you change any fields, then you are responsible to make a copy of
+        If you change any fields, then you are responsible for making a copy of
         them first and place the copy in the schema.
         """

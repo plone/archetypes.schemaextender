@@ -1,27 +1,37 @@
-Changelog for archetypes.schemaextender
+Changelog
+=========
 
-    (name of developer listed in brackets)
+1.0a2 - unreleased
+~~~~~~~~~~~~~~~~~~
 
-archetypes.schemaextender - 1.0a2
+* Schema modifiers implementing ISchemaModifier are now responsible for
+  copying fields they modify. See README and the doc strings.
+  [fschulze]
 
-    - Schema modifiers implementing ISchemaModifier are now responsible for
-      copying fields they modify. See README and the doc strings.
-      [fschulze]
+* Added a simple benchmark and made some optimizations by avoiding a lot
+  of field copying.
+  [fschulze, wiggy]
 
-    - Added a simple benchmark and made some optimizations by avoiding a lot
-      of field copying.
-      [fschulze, wiggy]
+* Use a marker interface instead of overrides.zcml - this means you don't
+  need to muck with overrides in dependent products.
+  [optilude]
 
-    - Use a marker interface instead of overrides.zcml - this means you don't
-      need to muck with overrides in dependent products.
-      [optilude]
+* Added code to allow addition of new schemata. We need an ordered
+  dictionary to not bork the order of the schemata.
+  [yenzenz]
 
-    - Added code to allow addition of new schemata. We need an ordered
-      dictionary to not bork the order of the schemata.
-      [yenzenz]
+* Add a small benchmark utility.
+  [wichert]
 
-archetypes.schemaextender - 1.0a1
+* Replace the high-level test with unit-tests and extend the test coverage.
+  [wichert]
 
-    - Initial package structure.
-      [zopeskel]
+* Rewrite the README to be more human readable.
+  [wichert]
+
+
+1.0a1 - October 15, 2007
+~~~~~~~~~~~~~~~~~~
+
+* First public release.
 
