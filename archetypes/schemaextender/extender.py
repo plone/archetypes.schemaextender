@@ -10,20 +10,10 @@ from zope.interface import implementer
 
 
 def get_schema_order(schema):
-    """
-        >>> from Products.Archetypes import atapi
-        >>> schema = atapi.Schema()
-        >>> from archetypes.schemaextender import extender
-        >>> extender.get_schema_order(schema)
-        {}
+    """Return the order of all schemata and their fields.
 
-        >>> schema.addField(atapi.BooleanField('boolean1'))
-        >>> sorted(extender.get_schema_order(schema).items())
-        [('default', ['boolean1'])]
-
-        >>> schema.addField(atapi.BooleanField('boolean2', schemata='foo'))
-        >>> sorted(extender.get_schema_order(schema).items())
-        [('default', ['boolean1']), ('foo', ['boolean2'])]
+    The ordering is returned as an OrderedList for schemata
+    with the schemata names as keys fields names as values.
     """
     result = OrderedDict()
     for name in schema.getSchemataNames():
@@ -31,7 +21,19 @@ def get_schema_order(schema):
         result[name] = list(x.getName() for x in fields)
     return result
 
+
 def validate_schema_order(schema, new_order):
+    """Update the order of all schemata and their fields.
+
+    The order is given is returned as a dictionary
+    with the schemata names as keys fields names as values. It is
+    strongly advised to use an OrderedDictionary to prevent the
+    schemata from being reorder in unexpected ways.
+
+    It is an error if existing fields do not appear in the new
+    ordering, or if fields names are added.
+    """
+
     current_order = get_schema_order(schema)
 
     current_fields = set()
