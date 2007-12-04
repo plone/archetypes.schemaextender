@@ -1,9 +1,24 @@
-Changelog for archetypes.schemaextender
+Changelog
+=========
 
-    (name of developer listed in brackets)
+1.0a2 - unreleased
+~~~~~~~~~~~~~~~~~~
 
-archetypes.schemaextender - 0.1 Unreleased
+* Performance improvements.
+  [fschulze]
 
-    - Initial package structure.
-      [zopeskel]
+* Add a small benchmark utility.
+  [wichert]
+
+* Replace the high-level test with unit-tests and extend the test coverage.
+  [wichert]
+
+* Rewrite the README to be more human readable.
+  [wichert]
+
+
+1.0a1 - October 15, 2007
+~~~~~~~~~~~~~~~~~~
+
+* First public release.
 
