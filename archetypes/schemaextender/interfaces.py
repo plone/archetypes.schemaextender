@@ -7,6 +7,9 @@ class IExtensible(Interface):
 class ISchemaExtender(Interface):
     """Interface for adapters that extend the schema"""
     
+    def __init__(context):
+        """Constructor. Takes the instance whose schema we are frobbing."""
+    
     def getFields():
         """Return a list of fields to be added to the schema."""
 
@@ -21,6 +24,10 @@ class IOrderableSchemaExtender(ISchemaExtender):
         
         The method should return a new such dictionary with re-ordered
         lists.
+
+        It is recommended to use an OrderedDict (available as
+        Products.Archetypes.utils.OrderedDict) to guarantee proper ordering
+        of schemata.
         """
 
 class ISchemaModifier(Interface):
