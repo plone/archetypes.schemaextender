@@ -82,11 +82,14 @@ getFields does as few things as possible, because it's called very often.
 The final step is registering this adapter with the Zope component
 architecture. Since we already declared the interface we provide and
 which type of object we adapt this can be done very quickly in
-configure.zcml::
+configure.zcml (assuming you put the code above in a file extender.py)::
 
-    <include package="archetypes.schemaextender" />
-    <adapter factory=".extender.PageExtender" />
+    <configure xmlns="http://namespaces.zope.org/zope"
+               xmlns:five="http://namespaces.zope.org/five">
 
+        <include package="archetypes.schemaextender" />
+        <adapter factory=".extender.PageExtender" />
+    </configure>
 
 Custom fields
 =============
