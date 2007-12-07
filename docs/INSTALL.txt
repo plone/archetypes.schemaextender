@@ -17,7 +17,7 @@ in the ''lib/python'' directory of your Zope instance.
 
 After installing the package it needs to be registered in your Zope
 instance.  This can be done by putting a
-archetypes.schemaextender-configure.zcml file in the etc/pakage-includes
+archetypes.schemaextender-configure.zcml file in the etc/package-includes
 directory with this content::
 
   <include package="archetypes.schemaextender" />
