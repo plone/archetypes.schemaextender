@@ -64,15 +64,15 @@ Next we have to create an adapter that will add this field::
 
 
         fields = [
-            MyBoleanField("super_power",
+            MyBooleanField("super_power",
             widget = BooleanWidget(
                 label="This page has super powers")),
                 ]
 
-         def __init__(self, context):
+        def __init__(self, context):
              self.context = context
 
-         def getFields(self):
+        def getFields(self):
              return self.fields
 
 Try to store the fields on the class, that way they aren't created each
