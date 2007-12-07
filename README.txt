@@ -41,7 +41,7 @@ Plone document type. First we need to create a field class::
      from Products.Archetypes.public import BooleanField
      from archetypes.schemaextender.field import ExtensionField
 
-     class MyBoolean(ExtensionField, BooleanField):
+     class MyBooleanField(ExtensionField, BooleanField):
         """A trivial field."""
 
 schemaextender can not use the standard Archetypes fields directly
