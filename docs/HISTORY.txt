@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.0a2 - unreleased
-~~~~~~~~~~~~~~~~~~
+1.0b1 - December 7, 2007
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Schema modifiers implementing ISchemaModifier are now responsible for
   copying fields they modify. See README and the doc strings.
@@ -31,7 +31,7 @@ Changelog
 
 
 1.0a1 - October 15, 2007
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 * First public release.
 
