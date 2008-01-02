@@ -1,3 +1,4 @@
+from zope.interface import Interface
 from zope.interface import implements
 from zope.interface import implementsOnly
 from zope.component import adapts
@@ -6,6 +7,11 @@ from archetypes.schemaextender.interfaces import ISchemaExtender
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
 from archetypes.schemaextender.interfaces import ISchemaModifier
 from Products.Archetypes.interfaces.field import IField
+
+
+class IHighlighted(Interface):
+    """A highlighted content item.
+    """
 
 class Extender(object):
     implements(ISchemaExtender)
