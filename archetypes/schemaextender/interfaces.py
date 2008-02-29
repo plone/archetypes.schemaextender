@@ -1,4 +1,6 @@
 from zope.interface import Interface
+from zope.interface import Attribute
+from zope.configuration.fields import GlobalInterface
 
 class IExtensible(Interface):
     """Marker interface applied to extensible content types
@@ -12,6 +14,7 @@ class ISchemaExtender(Interface):
     
     def getFields():
         """Return a list of fields to be added to the schema."""
+                            
 
 class IOrderableSchemaExtender(ISchemaExtender):
     """An orderable version of the schema extender"""
@@ -29,6 +32,17 @@ class IOrderableSchemaExtender(ISchemaExtender):
         Products.Archetypes.utils.OrderedDict) to guarantee proper ordering
         of schemata.
         """
+
+
+class IBrowserLayerAwareExtender(Interface):
+    """An plone browserlayer aware schemaextender.
+    
+    Extenders with this interface are used only in context of the given 
+    browserlayer.
+    """
+    
+    layer = GlobalInterface()
+
 
 class ISchemaModifier(Interface):
     """Interface for adapters that modify the existing schema.
@@ -60,3 +74,4 @@ class ISchemaModifier(Interface):
         If you change any fields, then you are responsible for making a copy of
         them first and place the copy in the schema.
         """
+

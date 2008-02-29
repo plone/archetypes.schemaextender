@@ -24,6 +24,10 @@ There are three types of adapters available:
   new fields and reorder fields. This is more costly than just adding new
   fields.
 
+* IBrowserLayerAwareExtender: this adpaters are making use of 
+  plone.browserlayer, so that the extender is only available if a layer is 
+  registered. 
+
 * ISchemaModifier: this is a low-level hook that allows direct manipulation
   of the schema. This can be very dangerous and should never be used.
 

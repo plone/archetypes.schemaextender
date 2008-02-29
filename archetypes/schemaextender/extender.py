@@ -4,10 +4,15 @@ from Products.Archetypes.utils import OrderedDict
 from archetypes.schemaextender.interfaces import ISchemaExtender
 from archetypes.schemaextender.interfaces import ISchemaModifier
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
+from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import IExtensible
 from zope.component import adapter, getAdapters
 from zope.interface import implementer
-
+try:
+    from plone.browserlayer.utils import registered_layers
+except ImportError:
+    # BBB, for naked plone 3.0, should be removed in future
+    registered_layers = []
 
 def get_schema_order(schema):
     """Return the order of all schemata and their fields.
@@ -112,6 +117,9 @@ def instanceSchemaFactory(context):
     # loop through all schema extenders
     order = None
     for name, extender in extenders:
+        if IBrowserLayerAwareExtender.providedBy(extender) and \
+           extender.layer not in registered_layers():
+            continue
         for field in extender.getFields():
             schema.addField(field)
             if order is not None:
