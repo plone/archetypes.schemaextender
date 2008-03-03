@@ -1,6 +1,15 @@
 Changelog
 =========
 
+svn/unreleased
+--------------
+
+* Added optional plone.browserlayer support. Extenders implementing
+  IBrowserLayerAwareExtender need to have a layer attribute. Those
+  extenders are taken into account only if the specified layer is
+  active.
+  [jensens] 2008-03-03
+
 1.0b1 - December 7, 2007
 ------------------------
 
@@ -18,7 +27,7 @@ Changelog
 
 * Added code to allow addition of new schemata. We need an ordered
   dictionary to not bork the order of the schemata.
-  [yenzenz]
+  [jensens]
 
 * Add a small benchmark utility.
   [wichert]
