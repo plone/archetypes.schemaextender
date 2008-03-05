@@ -10,9 +10,10 @@ from zope.component import adapter, getAdapters
 from zope.interface import implementer
 try:
     from plone.browserlayer.utils import registered_layers
+    has_plone_browserlayer = True
 except ImportError:
     # BBB, for naked plone 3.0, should be removed in future
-    registered_layers = []
+    has_plone_browserlayer = False
 
 def get_schema_order(schema):
     """Return the order of all schemata and their fields.
@@ -118,6 +119,7 @@ def instanceSchemaFactory(context):
     order = None
     for name, extender in extenders:
         if IBrowserLayerAwareExtender.providedBy(extender) and \
+           has_plone_browserlayer and \
            extender.layer not in registered_layers():
             continue
         for field in extender.getFields():
