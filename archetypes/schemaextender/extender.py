@@ -118,8 +118,8 @@ def instanceSchemaFactory(context):
     # loop through all schema extenders
     order = None
     for name, extender in extenders:
-        if not has_plone_browserlayer or \
-           (IBrowserLayerAwareExtender.providedBy(extender) and \
+        if IBrowserLayerAwareExtender.providedBy(extender) and \
+           (not has_plone_browserlayer or \
            extender.layer not in registered_layers()):
             continue
         for field in extender.getFields():
