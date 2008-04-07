@@ -1,8 +1,8 @@
 Changelog
 =========
 
-svn/unreleased
---------------
+1.0rc1 - April 7, 2008
+----------------------
 
 * Added optional plone.browserlayer support. Extenders implementing
   IBrowserLayerAwareExtender need to have a layer attribute. Those
