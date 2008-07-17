@@ -1,8 +1,13 @@
 Changelog
 =========
 
-1.0rc1 - April 7, 2008
-----------------------
+1.0 - 2008-07-17
+----------------
+
+* No changes since 1.0rc1.
+
+1.0rc1 - 2008-04-07
+-------------------
 
 * Added optional plone.browserlayer support. Extenders implementing
   IBrowserLayerAwareExtender need to have a layer attribute. Those
@@ -10,8 +15,8 @@ Changelog
   active.
   [jensens] 2008-03-03
 
-1.0b1 - December 7, 2007
-------------------------
+1.0b1 - 2007-12-07
+------------------
 
 * Schema modifiers implementing ISchemaModifier are now responsible for
   copying fields they modify. See README and the doc strings.
@@ -39,8 +44,8 @@ Changelog
   [wichert]
 
 
-1.0a1 - October 15, 2007
-------------------------
+1.0a1 - 2007-10-15
+------------------
 
 * First public release.
 
