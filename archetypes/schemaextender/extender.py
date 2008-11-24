@@ -140,6 +140,10 @@ def instanceSchemaFactory(context):
 
     if len(modifiers) > 0:
         for name, modifier in modifiers:
+            if IBrowserLayerAwareExtender.providedBy(modifier) and \
+               (not has_plone_browserlayer or \
+               modifier.layer not in registered_layers()):
+                continue
             modifier.fiddle(schema)
 
     return schema
