@@ -14,7 +14,8 @@ an ISchema adapter for BaseContent and BaseFolder, making it responsible
 for providing the schema for all types derived from those classes. This
 includes all standard Plone content types. Since only one ISchema adapter
 can be active schemaextender provides its own mechanism to modify schemas
-using named adapters.
+using named adapters. Named adapters are allowing to register more than one 
+schemaextender per adapted interface.
 
 There are three types of adapters available:
 
@@ -29,7 +30,8 @@ There are three types of adapters available:
   registered. 
 
 * ISchemaModifier: this is a low-level hook that allows direct manipulation
-  of the schema. This can be very dangerous and should never be used.
+  of the schema. This can be very dangerous and should never be used if one
+  does not know exactly what she/he is doing!
 
 
 The adapter types are documented in the ''interfaces.py'' file in
@@ -60,10 +62,10 @@ Next we have to create an adapter that will add this field::
     from zope.interface import implements
     from archetypes.schemaextender.interfaces import ISchemaExtender
     from Products.Archetypes.public import BooleanWidget
-    from Products.ATContentTypes.content.document import ATDocument
+    from Products.ATContentTypes.interface import IATDocument
 
     class PageExtender(object):
-        adapts(ATDocument)
+        adapts(IATDocument)
         implements(ISchemaExtender)
 
 

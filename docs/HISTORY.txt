@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.1 - future
+------------
+
+* minor adjustment in documentation: a) dont adapt the class in the
+  example, b) explain why named adapters are used.
+  [jensens] 2008-12-02
+
 1.0 - 2008-07-17
 ----------------
 
