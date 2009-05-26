@@ -1,10 +1,30 @@
 from zope.interface import Interface
-from zope.interface import Attribute
 from zope.configuration.fields import GlobalInterface
 
 class IExtensible(Interface):
     """Marker interface applied to extensible content types
     """
+
+
+class IExtensionField(Interface):
+    """Extension field"""
+
+    def getAccessor(instance):
+        """Return the accessor method for getting data out of this field."""
+
+    def getEditAccessor(instance):
+        """Return the accessor method for getting raw data out of this field
+        e.g.: for editing.
+        """
+
+    def getMutator(instance):
+        """Return the mutator method used for changing the value of this field.
+        """
+
+    def getIndexAccessor(instance):
+        """Return the index accessor, i.e. the getter for an indexable value.
+        """
+
 
 class ISchemaExtender(Interface):
     """Interface for adapters that extend the schema"""

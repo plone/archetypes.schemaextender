@@ -1,14 +1,20 @@
+from zope.interface import implements
 from Products.Archetypes import atapi
+
+from archetypes.schemaextender.interfaces import IExtensionField
+
 
 class ExtensionField(object):
     """Mix-in class to make Archetypes fields not depend on generated
     accessors and mutators, and use AnnotationStorage by default.
-    
+
     See README.txt for more information.
     """
-    
+
+    implements(IExtensionField)
+
     storage = atapi.AnnotationStorage()
-    
+
     def getAccessor(self, instance):
         def accessor(**kw):
             return self.get(instance, **kw)
