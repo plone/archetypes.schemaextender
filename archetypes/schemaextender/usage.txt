@@ -259,7 +259,7 @@ This will raise a validation error:
 
     >>> 'Please correct the indicated errors.' in browser.contents
     True
-    >>> 'Value D is not allowed for vocabulary' in browser.contents
+    >>> "Values ['D'] are not allowed for vocabulary" in browser.contents
     True
 
 Let's fix that:
