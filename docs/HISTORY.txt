@@ -4,6 +4,10 @@ Changelog
 1.1 - future
 ------------
 
+* Added support for LinguaPlone language independent fields, by seamlessly
+  using a new TranslatableExtensionField when LP is installed.
+  [hannosch]
+
 * Added a proper interface to the IExtensionField.
   [hannosch]
 

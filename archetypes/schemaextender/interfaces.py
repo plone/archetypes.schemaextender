@@ -26,6 +26,16 @@ class IExtensionField(Interface):
         """
 
 
+class ITranslatableExtensionField(IExtensionField):
+    """Extension field for ITranslatable"""
+
+    def getTranslationMutator(instance):
+        """Return a mutator for translatable values"""
+
+    def isLanguageIndependent(instance):
+        """Get the language independed flag for i18n content."""
+
+
 class ISchemaExtender(Interface):
     """Interface for adapters that extend the schema"""
     
