@@ -6,12 +6,12 @@ To-do: archetypes.schemaextender
  
 Investigate:
 ------------
- 
+
  o Explicit ordering of adapters (e.g. by interface specificity)
- 
+
  o Caching of the generated schema (e.g. with explicit invalidation based
    on events)
- 
+
  o At the moment, users must subclass fields and mix in ExtensionField.
    We could either ship with or generate on-the-fly a field type for
    each of the standard Archetypes fields. However, we should have tests

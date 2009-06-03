@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.1 - future
-------------
+1.1 - 2009-06-03
+----------------
 
 * Added support for LinguaPlone language independent fields, by seamlessly
   using a new TranslatableExtensionField when LP is installed.
@@ -14,7 +14,7 @@ Changelog
 * Adjusted tests for Plone 3.3.
   [hannosch]
 
-* Minor adjustment in documentation: a) dont adapt the class in the example,
+* Minor adjustment in documentation: a) don't adapt the class in the example,
   b) explain why named adapters are used.
   [jensens]
 

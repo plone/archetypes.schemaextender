@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '1.0'
+version = '1.1'
 
 setup(name='archetypes.schemaextender',
       version=version,
@@ -12,12 +12,11 @@ setup(name='archetypes.schemaextender',
         "Framework :: Plone",
         "Framework :: Zope2",
         "Programming Language :: Python",
-        "Topic :: Software Development :: Libraries :: Python Modules",
         ],
       keywords='Archetypes Schema extend',
       author='Florian Schulze',
       author_email='plone-developers@lists.sourceforge.net',
-      url='http://svn.plone.org/svn/archetypes/archetypes.schemaextender',
+      url='http://pypi.python.org/pypi/archetypes.schemaextender',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['archetypes'],

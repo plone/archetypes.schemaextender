@@ -140,4 +140,3 @@ marker interface on an object::
             else:
                 removeMarkerInterface(instance, ISuperPower)
 
-
