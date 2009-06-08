@@ -4,6 +4,8 @@ Changelog
 1.1.1 - unreleased
 ------------------
 
+* Added missing changelog entry.
+  [hannosch, woutervh]
 
 1.1 - 2009-06-03
 ----------------
@@ -22,6 +24,9 @@ Changelog
   b) explain why named adapters are used.
   [jensens]
 
+* Schema modifiers now also browserlayer-aware.
+  [jessesnyder]
+
 1.0 - 2008-07-17
 ----------------
 
@@ -31,10 +36,9 @@ Changelog
 -------------------
 
 * Added optional plone.browserlayer support. Extenders implementing
-  IBrowserLayerAwareExtender need to have a layer attribute. Those
-  extenders are taken into account only if the specified layer is
-  active.
-  [jensens] 2008-03-03
+  IBrowserLayerAwareExtender need to have a layer attribute. Those extenders
+  are taken into account only if the specified layer is active.
+  [jensens]
 
 1.0b1 - 2007-12-07
 ------------------
