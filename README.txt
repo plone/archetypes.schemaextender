@@ -25,7 +25,7 @@ There are three types of adapters available:
   new fields and reorder fields. This is more costly than just adding new
   fields.
 
-* IBrowserLayerAwareExtender: this adpaters are making use of 
+* IBrowserLayerAwareExtender: this adapters are making use of 
   plone.browserlayer, so that the extender is only available if a layer is 
   registered. 
 
