@@ -48,7 +48,7 @@ Plone document type. First we need to create a field class::
      from archetypes.schemaextender.field import ExtensionField
 
      class MyBooleanField(ExtensionField, BooleanField):
-        """A trivial field."""
+         """A trivial field."""
 
 schemaextender can not use the standard Archetypes fields directly
 since those rely on the class generation logic generating accessors
@@ -76,10 +76,10 @@ Next we have to create an adapter that will add this field::
                 ]
 
         def __init__(self, context):
-             self.context = context
+            self.context = context
 
         def getFields(self):
-             return self.fields
+            return self.fields
 
 Try to store the fields on the class, that way they aren't created each
 time the getFields method gets called. Generally you should make sure
