@@ -4,6 +4,10 @@ Changelog
 1.1.1 - unreleased
 ------------------
 
+* Avoid using the overridden `+` operator when copying the original schema
+  as this will needlessly validate all fields again.
+  [witsch]
+
 * Added missing changelog entry.
   [hannosch, woutervh]
 

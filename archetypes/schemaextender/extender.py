@@ -110,10 +110,14 @@ def instanceSchemaFactory(context):
 
     # as long as the schema is only extended, we can reuse all fields
     # if it's modified later, then we need a full copy, see modifiers below
-    # the __add__ functions doesn't copy the field, so we use that by first
-    # creating an empty schema of the same class and then add the existing
-    # one to it.
-    schema = context.schema.__class__() + context.schema
+    # however, using the __add__ function will needlessly validate all fields
+    # again (in `addField`).  instead we first create an empty schema of the
+    # same class, which is then populated using (shallow) copies of the
+    # internal data structures.  this shouldn't be too risky considering
+    # that they've last changed about 6 years ago...
+    schema = context.schema.__class__()
+    schema._names = list(context.schema._names)
+    schema._fields = context.schema._fields.copy()
 
     # loop through all schema extenders
     order = None
