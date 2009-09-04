@@ -103,7 +103,7 @@ def cachingInstanceSchemaFactory(context):
         if cache is None:
             cache = dict()
             setattr(request, attr, cache)
-        key = '/'.join(context.getPhysicalPath())
+        key = context.__class__, context.portal_type
         schema = cache.get(key, None)
         if schema is None:
             schema = cache[key] = instanceSchemaFactory(context)
