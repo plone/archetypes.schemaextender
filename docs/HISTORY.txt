@@ -4,6 +4,10 @@ Changelog
 1.1.1 - unreleased
 ------------------
 
+* Add `ISchema` adapter using simple caching on the request in order to
+  avoid redundant calculation of the (extended) schema.
+  [witsch]
+
 * Avoid using the overridden `+` operator when copying the original schema
   as this will needlessly validate all fields again.
   [witsch]

@@ -94,6 +94,26 @@ def set_schema_order(schema, new_order):
 
 @implementer(ISchema)
 @adapter(IExtensible)
+def cachingInstanceSchemaFactory(context):
+    """ schema adapter factory using a cache on the request object """
+    request = getattr(context, 'REQUEST', None)
+    attr = '__archetypes_schemaextender_cache'
+    if request is not None and not isinstance(request, str):
+        cache = getattr(request, attr, None)
+        if cache is None:
+            cache = dict()
+            setattr(request, attr, cache)
+        key = '/'.join(context.getPhysicalPath())
+        schema = cache.get(key, None)
+        if schema is None:
+            schema = cache[key] = instanceSchemaFactory(context)
+    else:
+        schema = instanceSchemaFactory(context)
+    return schema
+
+
+@implementer(ISchema)
+@adapter(IExtensible)
 def instanceSchemaFactory(context):
     """Default schema adapter factory.
     

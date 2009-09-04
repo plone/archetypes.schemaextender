@@ -11,6 +11,9 @@
     </class>
 
     <!-- Register the adapter for IExtensible objects -->
-    <adapter factory=".extender.instanceSchemaFactory" />
+    <!-- <adapter factory=".extender.instanceSchemaFactory" /> -->
+
+    <!-- Register caching adapter for IExtensible objects -->
+    <adapter factory=".extender.cachingInstanceSchemaFactory" />
 
 </configure>

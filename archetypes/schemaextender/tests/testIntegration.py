@@ -26,7 +26,11 @@ class TestCase(ptc.FunctionalTestCase):
         @classmethod
         def tearDown(cls):
             pass
-    
+
+    def clearSchemaCache(self):
+        attr = '__archetypes_schemaextender_cache'
+        delattr(self.portal.REQUEST, attr)
+
 
 def test_suite():
     return unittest.TestSuite([

@@ -152,12 +152,18 @@ But look!
     >>> zope.component.provideAdapter(TaggingSchemaExtender, 
     ...                               name=u"archetypes.schemaextender.tests")
 
+    >>> self.clearSchemaCache()
     >>> schema = taggable_doc.Schema()
     >>> 'schemaextender_test_tags' in schema
     True
     >>> 'schemaextender_test_highlighted' in schema
     True
-    
+
+Please note that as long as we don't use a testbrowser, thereby triggering
+new requests, the schema cache needs to be cleared explicitly in order to
+make the test work as intended.  On a real instance, caching per request
+shouldn't pose a problem, though.
+
 By registering a named adapter, we have extended the original schema. Let's 
 also ensure that we got the order right:
 
@@ -218,6 +224,7 @@ incompatible type, you can expect trouble.
     >>> zope.component.provideAdapter(SchemaModifier, 
     ...                               name=u"archetypes.schemaextender.tests")
 
+    >>> self.clearSchemaCache()
     >>> schema = taggable_doc.Schema()
     >>> schema['description'].widget.label
     'Blurb'
