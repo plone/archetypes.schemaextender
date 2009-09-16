@@ -103,7 +103,7 @@ def cachingInstanceSchemaFactory(context):
         if cache is None:
             cache = dict()
             setattr(request, attr, cache)
-        key = context.__class__, context.portal_type
+        key = context.UID()
         schema = cache.get(key, None)
         if schema is None:
             schema = cache[key] = instanceSchemaFactory(context)
