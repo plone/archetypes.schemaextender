@@ -29,7 +29,8 @@ class TestCase(ptc.FunctionalTestCase):
 
     def clearSchemaCache(self):
         attr = '__archetypes_schemaextender_cache'
-        delattr(self.portal.REQUEST, attr)
+        if hasattr(self.portal.REQUEST, attr):
+            delattr(self.portal.REQUEST, attr)
 
 
 def test_suite():
