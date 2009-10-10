@@ -5,7 +5,8 @@ Changelog
 ------------------
 
 * Add `ISchema` adapter using simple caching on the request in order to
-  avoid redundant calculation of the (extended) schema.
+  avoid redundant calculation of the (extended) schema.  The adapter is
+  not enabled by default and can be activated by loading `caching.zcml`.
   [witsch]
 
 * Avoid using the overridden `+` operator when copying the original schema

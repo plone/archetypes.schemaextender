@@ -1,19 +1,9 @@
 <configure
     xmlns="http://namespaces.zope.org/zope">
 
-    <!-- Let any Archetypes content type be extensible -->
-    <class class="Products.Archetypes.BaseContent.BaseContent">
-        <implements interface=".interfaces.IExtensible" />
-    </class>
-
-    <class class="Products.Archetypes.BaseFolder.BaseFolder">
-        <implements interface=".interfaces.IExtensible" />
-    </class>
+    <include file="implements.zcml" />
 
     <!-- Register the adapter for IExtensible objects -->
     <adapter factory=".extender.instanceSchemaFactory" />
-
-    <!-- Register caching adapter for IExtensible objects -->
-    <!-- <adapter factory=".extender.cachingInstanceSchemaFactory" /> -->
 
 </configure>

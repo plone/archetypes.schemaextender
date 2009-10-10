@@ -1,0 +1,13 @@
+<!-- zcml configuration file for using an adapter to cache individual
+     schemas on the request; this can be used as an alternative to the
+     regular `configure.zcml` -->
+
+<configure
+    xmlns="http://namespaces.zope.org/zope">
+
+    <include file="implements.zcml" />
+
+    <!-- Register caching adapter for IExtensible objects -->
+    <adapter factory=".extender.cachingInstanceSchemaFactory" />
+
+</configure>
