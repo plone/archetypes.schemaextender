@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.2 - Unreleased
-------------------
+1.2 - 2009-10-10
+----------------
 
 * Add `ISchema` adapter using simple caching on the request in order to
   avoid redundant calculation of the (extended) schema.  The adapter is
