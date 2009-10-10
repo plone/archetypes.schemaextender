@@ -13,6 +13,7 @@ class ExtensibleType(BaseObject):
 
 
 class TestCase(unittest.TestCase):
+
     def setUp(self):
         self._adapters=[]
         self.provideAdapter(instanceSchemaFactory)
@@ -26,5 +27,3 @@ class TestCase(unittest.TestCase):
     def provideAdapter(self, *args, **kwargs):
         provideAdapter(*args, **kwargs)
         self._adapters.append((args, kwargs))
-
-

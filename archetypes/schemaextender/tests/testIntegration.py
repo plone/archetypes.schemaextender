@@ -14,8 +14,11 @@ import archetypes.schemaextender
 
 ptc.setupPloneSite()
 
+
 class TestCase(ptc.FunctionalTestCase):
+
     class layer(PloneSite):
+
         @classmethod
         def setUp(cls):
             fiveconfigure.debug_mode = True
@@ -43,7 +46,7 @@ def test_suite():
         ztc.FunctionalDocFileSuite(
             'usage.txt', package='archetypes.schemaextender',
             test_class=TestCase),
-        
+
         ])
 
 if __name__ == '__main__':

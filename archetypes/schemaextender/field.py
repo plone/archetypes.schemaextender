@@ -44,17 +44,16 @@ class BaseExtensionField(object):
             return self.getAccessor(instance)
 
 
-
 class TranslatableExtensionField(BaseExtensionField):
     """Extension field for a translatable content item.
-    
+
     Needs to copy the language-independant values across translations.
     """
     implements(ITranslatableExtensionField)
 
     def getMutator(self, instance):
         def mutator(value, **kw):
-            if (not ITranslatable.providedBy(instance) or 
+            if (not ITranslatable.providedBy(instance) or
                 not self.languageIndependent):
                 return self.getTranslationMutator(instance)(value, **kw)
 

@@ -13,14 +13,16 @@ class IHighlighted(Interface):
     """A highlighted content item.
     """
 
+
 class Extender(object):
     implements(ISchemaExtender)
     adapts(ExtensibleType)
 
-    fields =  []
+    fields = []
 
     def __init__(self, context):
         pass
+
     def getFields(self):
         return self.fields
 
@@ -53,6 +55,7 @@ class SchemaModifier(object):
 
     def __init__(self, context):
         pass
+
     def fiddle(self, schema):
         pass
 
@@ -60,12 +63,13 @@ class SchemaModifier(object):
 class MockField:
     __implements__ = IField
     type = "mock"
+
     def __init__(self, name="MockField", schemata="default"):
         self.name=name
         self.schemata=schemata
+
     def toString(self):
         return "MockField"
+
     def getName(self):
         return self.name
-
-

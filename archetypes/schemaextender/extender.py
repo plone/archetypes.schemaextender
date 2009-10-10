@@ -15,6 +15,7 @@ except ImportError:
     # BBB, for naked plone 3.0, should be removed in future
     has_plone_browserlayer = False
 
+
 def get_schema_order(schema):
     """Return the order of all schemata and their fields.
 
@@ -51,12 +52,13 @@ def validate_schema_order(schema, new_order):
         new_fields = new_fields.union(set(fields))
 
     if len(current_fields) != len(new_fields):
-        raise ValueError, "The number of fields in the new order differs "\
-                          "from the number of fields in the schema."
+        raise ValueError("The number of fields in the new order differs "\
+                         "from the number of fields in the schema.")
 
     if current_fields != new_fields:
-        raise ValueError, "The set of fields in the new order differs "\
-                          "from the set of fields in the schema."
+        raise ValueError("The set of fields in the new order differs "\
+                         "from the set of fields in the schema.")
+
 
 def set_schema_order(schema, new_order):
     """
@@ -116,7 +118,7 @@ def cachingInstanceSchemaFactory(context):
 @adapter(IExtensible)
 def instanceSchemaFactory(context):
     """Default schema adapter factory.
-    
+
     In BaseObject, the Schema() method will do 'schema = ISchema(self)'. This
     adapter factory is a replacement of the default one in
     Archetypes.Schema.factory. It allows you to register named adapter

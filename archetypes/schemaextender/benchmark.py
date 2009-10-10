@@ -19,7 +19,6 @@ from archetypes.schemaextender.tests.mocks import OrderableExtender
 from archetypes.schemaextender.tests.mocks import SchemaModifier
 
 
-
 def bench():
     i=5000
     a=ExtensibleType("id")
@@ -49,4 +48,3 @@ sm.unregisterAdapter(OrderableExtender, name=u"atse.benchmark")
 provideAdapter(SchemaModifier, name=u"atse.benchmark")
 print "Benchmark with SchemaModifier: %.2f seconds" % bench()
 sm.unregisterAdapter(SchemaModifier, name=u"atse.benchmark")
-

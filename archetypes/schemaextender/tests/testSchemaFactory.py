@@ -5,13 +5,16 @@ from archetypes.schemaextender.tests.mocks import Extender
 from archetypes.schemaextender.tests.mocks import OrderableExtender
 from archetypes.schemaextender.tests.mocks import MockField
 
+
 class NonExtenderTests(TestCase):
+
     def testNoExtenderMeansNoChanges(self):
         schema=instanceSchemaFactory(self.instance)
         self.failUnless(schema is self.instance.schema)
 
 
 class ExtenderTests(TestCase):
+
     def setUp(self):
         TestCase.setUp(self)
         self.provideAdapter(Extender, name=u"atse.tests.extender")
@@ -33,6 +36,7 @@ class ExtenderTests(TestCase):
 
 
 class OrderableExtenderTests(ExtenderTests):
+
     def setUp(self):
         TestCase.setUp(self)
         self.provideAdapter(OrderableExtender, name=u"atse.tests.extender")
