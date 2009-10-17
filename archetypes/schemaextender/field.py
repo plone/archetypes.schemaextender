@@ -7,6 +7,7 @@ from archetypes.schemaextender.interfaces import ITranslatableExtensionField
 HAS_LP = True
 try:
     from Products.LinguaPlone.interfaces import ITranslatable
+    from Products.LinguaPlone.utils import generatedMutatorWrapper
 except ImportError:
     HAS_LP = False
 
@@ -52,25 +53,14 @@ class TranslatableExtensionField(BaseExtensionField):
     implements(ITranslatableExtensionField)
 
     def getMutator(self, instance):
+        name = self.getName()
+        generatedMutator = generatedMutatorWrapper(name)
         def mutator(value, **kw):
             if (not ITranslatable.providedBy(instance) or
                 not self.languageIndependent):
                 return self.getTranslationMutator(instance)(value, **kw)
-
-            # Language-independant, thus needs to be copied across all translations
-            translations = [t[0] for t in instance.getTranslations().values()]
-            translations.reverse()
-            res = None
-            for t in translations:
-                field = t.Schema().get(self.getName())
-                if field is None:
-                    # translation doesn't even have this field
-                    continue
-                if ITranslatableExtensionField.providedBy(field):
-                    field.getTranslationMutator(t)(value, **kw)
-                else:
-                    field.getMutator(t)(value, **kw)
-            return res
+            # Use the generatedMutator from LinguaPlone
+            return generatedMutator(instance, value, **kw)
         return mutator
 
     def getTranslationMutator(self, instance):
