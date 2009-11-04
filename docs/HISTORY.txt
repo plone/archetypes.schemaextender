@@ -4,6 +4,8 @@ Changelog
 1.4 - Unreleased
 ----------------
 
+* Fix schema copying to also include properties and layers.
+  [maerteijn]
 
 1.3 - 2009-10-20
 ----------------

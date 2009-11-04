@@ -140,6 +140,8 @@ def instanceSchemaFactory(context):
     schema = context.schema.__class__()
     schema._names = list(context.schema._names)
     schema._fields = context.schema._fields.copy()
+    schema._props = context.schema._props.copy()
+    schema._layers = context.schema._layers.copy()
 
     # loop through all schema extenders
     order = None
