@@ -1,12 +1,13 @@
 from zope.interface import Interface
 from zope.interface import implements
 from zope.interface import implementsOnly
+from zope.interface.interfaces import IInterface
 from zope.component import adapts
 from archetypes.schemaextender.tests.case import ExtensibleType
 from archetypes.schemaextender.interfaces import ISchemaExtender
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
 from archetypes.schemaextender.interfaces import ISchemaModifier
-from Products.Archetypes.interfaces import IField
+from Products.Archetypes.interfaces.field import IField
 
 
 class IHighlighted(Interface):
@@ -61,7 +62,10 @@ class SchemaModifier(object):
 
 
 class MockField:
-    implements(IField)
+    if IInterface.providedBy(IField):
+        implements(IField)
+    else:
+        __implements__ = IField
     type = "mock"
 
     def __init__(self, name="MockField", schemata="default"):
