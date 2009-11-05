@@ -6,7 +6,7 @@ from archetypes.schemaextender.tests.case import ExtensibleType
 from archetypes.schemaextender.interfaces import ISchemaExtender
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
 from archetypes.schemaextender.interfaces import ISchemaModifier
-from Products.Archetypes.interfaces.field import IField
+from Products.Archetypes.interfaces import IField
 
 
 class IHighlighted(Interface):
@@ -61,7 +61,7 @@ class SchemaModifier(object):
 
 
 class MockField:
-    __implements__ = IField
+    implements(IField)
     type = "mock"
 
     def __init__(self, name="MockField", schemata="default"):
