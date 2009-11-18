@@ -256,8 +256,10 @@ verify that our changed widget took effect.
     True
 
     >>> browser.getControl('Title').value = "Test doc"
-    >>> browser.getControl('Tags').value
-    'A\nB'
+    >>> 'A' in browser.getControl('Tags').value
+    True
+    >>> 'B' in browser.getControl('Tags').value
+    True
     >>> browser.getControl('Tags').value = 'D'
     >>> browser.getControl('Highlighted').click()
     >>> browser.getControl('Save').click()
