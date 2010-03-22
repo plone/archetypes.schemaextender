@@ -1,7 +1,11 @@
 Changelog
 =========
 
-1.6 - Unreleased
+1.7 - Unreleased
+----------------
+
+
+1.6 - 2010-03-22
 ----------------
 
 * Fix index accessor to support setting custom accessor methods.
