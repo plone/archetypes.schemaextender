@@ -1,43 +1,12 @@
-import unittest
-
+from unittest import TestSuite, main
 from zope.testing import doctestunit
 from zope.component import testing
 from Testing import ZopeTestCase as ztc
-from Products.PloneTestCase import PloneTestCase as ptc
-
-from Products.Five import zcml
-from Products.Five import fiveconfigure
-
-from Products.PloneTestCase.layer import PloneSite
-
-import archetypes.schemaextender
-
-ptc.setupPloneSite()
-
-
-class TestCase(ptc.FunctionalTestCase):
-
-    class layer(PloneSite):
-
-        @classmethod
-        def setUp(cls):
-            fiveconfigure.debug_mode = True
-            zcml.load_config('configure.zcml',
-                             archetypes.schemaextender)
-            fiveconfigure.debug_mode = False
-
-        @classmethod
-        def tearDown(cls):
-            pass
-
-    def clearSchemaCache(self):
-        attr = '__archetypes_schemaextender_cache'
-        if hasattr(self.portal.REQUEST, attr):
-            delattr(self.portal.REQUEST, attr)
+from archetypes.schemaextender.tests.base import TestCase
 
 
 def test_suite():
-    return unittest.TestSuite([
+    return TestSuite([
 
         doctestunit.DocTestSuite(
            module='archetypes.schemaextender.extender',
@@ -49,5 +18,6 @@ def test_suite():
 
         ])
 
+
 if __name__ == '__main__':
-    unittest.main(defaultTest='test_suite')
+    main(defaultTest='test_suite')
