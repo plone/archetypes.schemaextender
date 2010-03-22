@@ -39,10 +39,15 @@ class BaseExtensionField(object):
         return mutator
 
     def getIndexAccessor(self, instance):
-        if getattr(self, 'index_method', None) == '_at_edit_accessor':
-            return self.getEditAccessor(instance)
-        else:
+        name = getattr(self, 'index_method', None)
+        if name is None or name == '_at_accessor':
             return self.getAccessor(instance)
+        elif name == '_at_edit_accessor':
+            return self.getEditAccessor(instance)
+        elif not isinstance(name, basestring):
+            raise ValueError('Bad index accessor value: %r', name)
+        else:
+            return getattr(instance, name)
 
 
 class TranslatableExtensionField(BaseExtensionField):

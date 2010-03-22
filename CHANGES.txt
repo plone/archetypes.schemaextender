@@ -4,6 +4,8 @@ Changelog
 1.6 - Unreleased
 ----------------
 
+* Fix index accessor to support setting custom accessor methods.
+  [witsch]
 
 1.5 - 2009-11-18
 ----------------
