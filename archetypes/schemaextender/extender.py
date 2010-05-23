@@ -1,3 +1,5 @@
+import os
+
 from Globals import DevelopmentMode
 from Products.Archetypes.interfaces import ISchema
 from Products.Archetypes.utils import OrderedDict
@@ -98,18 +100,20 @@ def set_schema_order(schema, new_order):
 @adapter(IExtensible)
 def cachingInstanceSchemaFactory(context):
     """ schema adapter factory using a cache on the request object """
-    request = getattr(context, 'REQUEST', None)
-    attr = '__archetypes_schemaextender_cache'
-    if request is not None and not isinstance(request, str):
-        cache = getattr(request, attr, None)
-        if cache is None:
-            cache = dict()
-            setattr(request, attr, cache)
-        key = context.UID()
-        schema = cache.get(key, None)
-        if schema is None:
-            schema = cache[key] = instanceSchemaFactory(context)
-    else:
+    schema = None
+    if not 'ZOPETESTCASE' in os.environ:
+        request = getattr(context, 'REQUEST', None)
+        attr = '__archetypes_schemaextender_cache'
+        if request is not None and not isinstance(request, str):
+            cache = getattr(request, attr, None)
+            if cache is None:
+                cache = dict()
+                setattr(request, attr, cache)
+            key = context.UID()
+            schema = cache.get(key, None)
+            if schema is None:
+                schema = cache[key] = instanceSchemaFactory(context)
+    if schema is None:
         schema = instanceSchemaFactory(context)
     return schema
 
