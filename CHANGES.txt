@@ -1,8 +1,12 @@
 Changelog
 =========
 
-1.7 - Unreleased
+2.0 - Unreleased
 ----------------
+
+* Removed the ``caching.zcml`` and enabled caching by default. You can use
+  a different caching implementation by using an ``overrides.zcml`` file.
+  [hannosch]
 
 * Added ``z3c.autoinclude`` entry point to mark this as a Plone plugin.
   [hannosch]

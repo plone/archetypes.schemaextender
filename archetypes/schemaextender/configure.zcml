@@ -3,7 +3,7 @@
 
     <include file="implements.zcml" />
 
-    <!-- Register the adapter for IExtensible objects -->
-    <adapter factory=".extender.instanceSchemaFactory" />
+    <!-- Register caching adapter for IExtensible objects -->
+    <adapter factory=".extender.cachingInstanceSchemaFactory" />
 
 </configure>

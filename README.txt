@@ -139,30 +139,3 @@ marker interface on an object::
                 addMarkerInterface(instance, ISuperPower)
             else:
                 removeMarkerInterface(instance, ISuperPower)
-
-
-Caching
-=======
-
-The package provides an alternative ISchema adapter, which implements a simple
-caching strategy to avoid redundant construction of the schema.  To be on the
-safe side, the adapter for now only caches individual schemata on the current
-request object.  In other words, the cache works per object per request. This
-should avoid most potential invalidation problems.
-
-However, as the caching is still experimental and also affects most test
-setups, including those of other packages, it is not enabled by default.
-Please use the ''caching.zcml'' instead of the regular ''configure.zcml'' to
-activate it.  This can be accomplished either via zcml, e.g. from another
-package like::
-
-  <include package="archetypes.schemaextender" file="caching.zcml" />
-
-or else via buildout like::
-
-  [instance]
-  eggs = archetypes.schemaextender
-  zcml = archetypes.schemaextender:caching.zcml
-
-Please also see below for more information about this.
-
