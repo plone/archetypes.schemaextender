@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0 - Unreleased
+2.0 - 2010-05-23
 ----------------
 
 * Removed the ``caching.zcml`` and enabled caching by default. You can use
