@@ -18,6 +18,9 @@ except ImportError:
     has_plone_browserlayer = False
 
 
+CACHE_KEY = '__archetypes_schemaextender_cache'
+
+
 def get_schema_order(schema):
     """Return the order of all schemata and their fields.
 
@@ -103,8 +106,8 @@ def cachingInstanceSchemaFactory(context):
     schema = None
     if not 'ZOPETESTCASE' in os.environ:
         request = getattr(context, 'REQUEST', None)
-        attr = '__archetypes_schemaextender_cache'
         if request is not None and not isinstance(request, str):
+            attr = CACHE_KEY
             cache = getattr(request, attr, None)
             if cache is None:
                 cache = dict()
@@ -129,8 +132,8 @@ def instanceSchemaFactory(context):
     to extend the schema. The advantage is that now several packages can do
     additions to the schema without conflicts.
     """
-    extenders = list(getAdapters((context,), ISchemaExtender))
-    modifiers = list(getAdapters((context,), ISchemaModifier))
+    extenders = list(getAdapters((context, ), ISchemaExtender))
+    modifiers = list(getAdapters((context, ), ISchemaModifier))
     if len(extenders) == 0 and len(modifiers) == 0:
         return context.schema
 
