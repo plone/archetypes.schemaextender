@@ -5,7 +5,7 @@ version = '2.1'
 setup(name='archetypes.schemaextender',
       version=version,
       description="Dynamically extend Archetypes schemas with named adapters.",
-      long_description=open("README.txt").read() + \
+      long_description=open("README.txt").read() + '\n\n' + \
                         open("CHANGES.txt").read(),
       classifiers=[
         "Framework :: Plone",
