@@ -19,6 +19,7 @@ except ImportError:
 
 
 CACHE_KEY = '__archetypes_schemaextender_cache'
+_marker = object()
 
 
 def get_schema_order(schema):
@@ -99,6 +100,10 @@ def set_schema_order(schema, new_order):
             schema.moveField(name, pos='bottom')
 
 
+def disableCache(request):
+    setattr(request, CACHE_KEY, False)
+
+
 @implementer(ISchema)
 @adapter(IExtensible)
 def cachingInstanceSchemaFactory(context):
@@ -108,14 +113,20 @@ def cachingInstanceSchemaFactory(context):
         request = getattr(context, 'REQUEST', None)
         if request is not None and not isinstance(request, str):
             attr = CACHE_KEY
-            cache = getattr(request, attr, None)
-            if cache is None:
+            cache = getattr(request, attr, _marker)
+            if cache is _marker:
                 cache = dict()
                 setattr(request, attr, cache)
-            key = str(id(context)) + (context.UID() or '')
-            schema = cache.get(key, None)
-            if schema is None:
-                schema = cache[key] = instanceSchemaFactory(context)
+            # Setting the cache to something non-dictish like
+            # None or False disables it
+            if isinstance(cache, dict):
+                # If the object is just being created, we use its id() as a
+                # fallback. Generally the id() is not stable, as it changes
+                # with Acquisition wrappers and ZODB ghosting
+                key = context.UID() or str(id(context))
+                schema = cache.get(key, None)
+                if schema is None:
+                    schema = cache[key] = instanceSchemaFactory(context)
     if schema is None:
         schema = instanceSchemaFactory(context)
     return schema

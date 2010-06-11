@@ -4,6 +4,12 @@ Changelog
 2.0.2 - unreleased
 ------------------
 
+* Changed the schema cache again, to use the id() only as a fallback when there
+  is not yet an UID assigned. The id() is unstable with Acquisition wrappers
+  and ZODB level ghosting of objects. We provide an explicit API for disabling
+  the cache instead.
+  [hannosch]
+
 * Avoid deprecation warnings under Zope 2.13.
   [hannosch]
 
