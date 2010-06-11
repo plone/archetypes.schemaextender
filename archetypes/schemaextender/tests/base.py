@@ -1,7 +1,13 @@
-from Products.Five import fiveconfigure
-from Products.Five.zcml import load_config
 from Products.PloneTestCase.ptc import setupPloneSite, FunctionalTestCase
 from Products.PloneTestCase.layer import PloneSite
+
+# BBB Zope 2.12
+try:
+    from OFS import metaconfigure
+    from Zope2.App.zcml import load_config
+except ImportError:
+    from Products.Five import fiveconfigure as metaconfigure
+    from Products.Five.zcml import load_config
 
 
 setupPloneSite()
@@ -13,10 +19,10 @@ class TestCase(FunctionalTestCase):
 
         @classmethod
         def setUp(cls):
-            fiveconfigure.debug_mode = True
+            metaconfigure.debug_mode = True
             from archetypes import schemaextender
             load_config('configure.zcml', schemaextender)
-            fiveconfigure.debug_mode = False
+            metaconfigure.debug_mode = False
 
         @classmethod
         def tearDown(cls):

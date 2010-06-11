@@ -1,14 +1,16 @@
-from unittest import TestSuite, main
-from zope.testing import doctestunit
+import doctest
+from unittest import TestSuite
+
 from zope.component import testing
 from Testing import ZopeTestCase as ztc
+
 from archetypes.schemaextender.tests.base import TestCase
 
 
 def test_suite():
     return TestSuite([
 
-        doctestunit.DocTestSuite(
+        doctest.DocTestSuite(
            module='archetypes.schemaextender.extender',
            setUp=testing.setUp, tearDown=testing.tearDown),
 
@@ -17,7 +19,3 @@ def test_suite():
             test_class=TestCase),
 
         ])
-
-
-if __name__ == '__main__':
-    main(defaultTest='test_suite')

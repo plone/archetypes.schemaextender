@@ -1,8 +1,11 @@
 Changelog
 =========
 
-2.1 - unreleased
-----------------
+2.0.2 - unreleased
+------------------
+
+* Avoid deprecation warnings under Zope 2.13.
+  [hannosch]
 
 * Change the schema cache key to avoid an issue during content migration when
   there might be two objects that have the same UID but different schemata.
