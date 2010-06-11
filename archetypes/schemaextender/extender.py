@@ -109,7 +109,7 @@ def cachingInstanceSchemaFactory(context):
             if cache is None:
                 cache = dict()
                 setattr(request, attr, cache)
-            key = context.UID()
+            key = context._p_oid or (str(id(context)) + (context.UID() or ''))
             schema = cache.get(key, None)
             if schema is None:
                 schema = cache[key] = instanceSchemaFactory(context)

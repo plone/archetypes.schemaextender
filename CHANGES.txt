@@ -4,6 +4,13 @@ Changelog
 2.1 - unreleased
 ----------------
 
+* Change the schema cache key to avoid an issue during content migration when
+  there might be two objects that have the same UID but different schemata.
+  Now using the _p_oid if available, with a fallback to the Python id()
+  concatenated with the UID (id() alone isn't good enough, as two objects with
+  non-overlapping lifetimes may have the same id() value).
+  Fixes http://dev.plone.org/plone/ticket/10637.
+  [davisagli]
 
 2.0.1 - 2010-05-23
 ------------------
