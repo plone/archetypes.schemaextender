@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.2 - unreleased
+2.0.2 - 2010-06-13
 ------------------
 
 * Changed the schema cache again, to use the id() only as a fallback when there
@@ -148,4 +148,3 @@ Changelog
 ------------------
 
 * First public release.
-
