@@ -4,6 +4,10 @@ Changelog
 2.0.3 - unreleased
 ------------------
 
+* Added back the ``caching.zcml`` file, but have it load ``configure.zcml``.
+  This makes it easier to write Plone 3 / 4 compatible code.
+  [hannosch]
+
 * Factored out the condition to disable the cache during tests into a module
   global variable called ``CACHE_ENABLED``.
   [hannosch]
