@@ -4,6 +4,9 @@ Changelog
 2.0.3 - unreleased
 ------------------
 
+* Factored out the condition to disable the cache during tests into a module
+  global variable called ``CACHE_ENABLED``.
+  [hannosch]
 
 2.0.2 - 2010-06-13
 ------------------

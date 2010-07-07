@@ -19,6 +19,7 @@ except ImportError:
 
 
 CACHE_KEY = '__archetypes_schemaextender_cache'
+CACHE_ENABLED = 'ZOPETESTCASE' not in os.environ
 _marker = object()
 
 
@@ -109,7 +110,7 @@ def disableCache(request):
 def cachingInstanceSchemaFactory(context):
     """ schema adapter factory using a cache on the request object """
     schema = None
-    if not 'ZOPETESTCASE' in os.environ:
+    if CACHE_ENABLED:
         request = getattr(context, 'REQUEST', None)
         if request is not None and not isinstance(request, str):
             attr = CACHE_KEY
