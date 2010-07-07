@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.3 - unreleased
+2.0.3 - 2010-07-07
 ------------------
 
 * Added back the ``caching.zcml`` file, but have it load ``configure.zcml``.
