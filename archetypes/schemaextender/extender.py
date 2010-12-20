@@ -10,6 +10,7 @@ from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import IExtensible
 from zope.component import adapter, getAdapters
 from zope.interface import implementer
+from plone.uuid.interfaces import IUUID
 try:
     from plone.browserlayer.utils import registered_layers
     has_plone_browserlayer = True
@@ -124,7 +125,7 @@ def cachingInstanceSchemaFactory(context):
                 # If the object is just being created, we use its id() as a
                 # fallback. Generally the id() is not stable, as it changes
                 # with Acquisition wrappers and ZODB ghosting
-                key = context.UID() or str(id(context))
+                key = IUUID(context, str(id(context)))
                 schema = cache.get(key, None)
                 if schema is None:
                     schema = cache[key] = instanceSchemaFactory(context)

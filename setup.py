@@ -23,6 +23,7 @@ setup(name='archetypes.schemaextender',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'plone.uuid'
       ],
       entry_points="""
       [z3c.autoinclude.plugin]

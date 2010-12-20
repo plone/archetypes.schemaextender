@@ -1,10 +1,15 @@
 Changelog
 =========
 
-2.0.4 - unreleased
-------------------
+2.1 - unreleased
+----------------
 
-* Added example how to use ordered extenders and browser layer aware extenders [miohtama]
+* Use plone.uuid to look up content UUIDs.
+  [toutpt, davisagli]
+
+* Added example of how to use ordered extenders and browser layer aware
+  extenders.
+  [miohtama]
 
 2.0.3 - 2010-07-07
 ------------------
