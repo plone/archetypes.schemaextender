@@ -124,7 +124,7 @@ def cachingInstanceSchemaFactory(context):
             lookup = context.aq_acquire
         except AttributeError:
             site = getSite()
-            lookup = site.ac_acquire
+            lookup = site.aq_acquire
 
         try:
             request = lookup('REQUEST')
