@@ -11,6 +11,13 @@ from archetypes.schemaextender.interfaces import IExtensible
 from zope.component import adapter, getAdapters
 from zope.interface import implementer
 from plone.uuid.interfaces import IUUID
+
+try:
+    from zope.site.hooks import getSite
+except ImportError:
+    # BBB, for older Zope 2
+    from zope.app.component.hooks import getSite
+
 try:
     from plone.browserlayer.utils import registered_layers
     has_plone_browserlayer = True
@@ -112,8 +119,17 @@ def cachingInstanceSchemaFactory(context):
     """ schema adapter factory using a cache on the request object """
     schema = None
     if CACHE_ENABLED:
-        request = getattr(context, 'REQUEST', None)
-        if request is not None and not isinstance(request, str):
+        try:
+            lookup = context.aq_acquire
+        except AttributeError:
+            site = getSite()
+            lookup = site.ac_acquire
+
+        try:
+            request = lookup('REQUEST')
+        except AttributeError:
+            pass
+        else:
             attr = CACHE_KEY
             cache = getattr(request, attr, _marker)
             if cache is _marker:

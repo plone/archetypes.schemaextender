@@ -4,6 +4,12 @@ Changelog
 2.1.1 - Unreleased
 ------------------
 
+* Acquire request object via local site hook if object is not
+  acquisition-wrapped (in ``cachingInstanceSchemaFactory``). This
+  fixes caching issues with objects rendered using DTML. Note that
+  this is likely a bug in the ``DocumentTemplate`` code. Ideally, the
+  issue should be resolved there.
+
 2.1 - 2011-01-03
 ----------------
 
