@@ -11,6 +11,7 @@ from archetypes.schemaextender.interfaces import IExtensible
 from zope.component import adapter, getAdapters
 from zope.interface import implementer
 from plone.uuid.interfaces import IUUID
+from plone.uuid.interfaces import IUUIDAware
 
 try:
     from zope.site.hooks import getSite
