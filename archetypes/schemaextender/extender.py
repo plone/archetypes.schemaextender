@@ -141,7 +141,14 @@ def cachingInstanceSchemaFactory(context):
                 # If the object is just being created, we use its id() as a
                 # fallback. Generally the id() is not stable, as it changes
                 # with Acquisition wrappers and ZODB ghosting
-                key = IUUID(context, str(id(context)))
+                fallback = str(id(context))
+
+                # Use ``plone.uuid`` only if applicable (object is aware)
+                if IUUIDAware.providedBy(context):
+                    key = IUUID(context, fallback)
+                else:
+                    key = context.UID() or fallback
+
                 schema = cache.get(key, None)
                 if schema is None:
                     schema = cache[key] = instanceSchemaFactory(context)
