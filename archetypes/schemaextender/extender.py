@@ -11,13 +11,8 @@ from archetypes.schemaextender.interfaces import IExtensible
 from zope.component import adapter, getAdapters
 from zope.interface import implementer
 from plone.uuid.interfaces import IUUID
-from plone.uuid.interfaces import IUUIDAware
 
-try:
-    from zope.site.hooks import getSite
-except ImportError:
-    # BBB, for older Zope 2
-    from zope.app.component.hooks import getSite
+from zope.site.hooks import getSite
 
 try:
     from plone.browserlayer.utils import registered_layers
@@ -142,13 +137,7 @@ def cachingInstanceSchemaFactory(context):
                 # If the object is just being created, we use its id() as a
                 # fallback. Generally the id() is not stable, as it changes
                 # with Acquisition wrappers and ZODB ghosting
-                fallback = str(id(context))
-
-                # Use ``plone.uuid`` only if applicable (object is aware)
-                if IUUIDAware.providedBy(context):
-                    key = IUUID(context, fallback)
-                else:
-                    key = context.UID() or fallback
+                key = IUUID(context, str(id(context))) 
 
                 schema = cache.get(key, None)
                 if schema is None:
