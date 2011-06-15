@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.4 - unreleased
+2.0.4 - 2011-06-14
 ------------------
 
 * Acquire request object via local site hook if object is not
@@ -11,7 +11,9 @@ Changelog
   issue should be resolved there.
   [malthe]
 
-* Added example how to use ordered extenders and browser layer aware extenders [miohtama]
+* Added example of how to use ordered extenders and browser layer aware 
+  extenders.
+  [miohtama]
 
 2.0.3 - 2010-07-07
 ------------------
