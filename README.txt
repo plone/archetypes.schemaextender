@@ -225,3 +225,14 @@ Below is an example of ``extender.py`` which adds new field on *Dates* edit tab:
                 @return: List of new fields we contribute to content. 
                 """
                 return self.fields
+
+Note: since the above example has two interfaces in its ``implements``
+line, you will get an error when your Zope instance starts up::
+
+        TypeError: Missing 'provides' attribute
+
+This means we need to be more explicit in our zcml configuration and
+specify which of the two interfaces is provided by our adapter::
+
+        <adapter factory=".extender.RevisitExtender"
+            provides="archetypes.schemaextender.interfaces.ISchemaExtender" />
