@@ -137,7 +137,7 @@ def cachingInstanceSchemaFactory(context):
                 # If the object is just being created, we use its id() as a
                 # fallback. Generally the id() is not stable, as it changes
                 # with Acquisition wrappers and ZODB ghosting
-                key = IUUID(context, str(id(context))) 
+                key = IUUID(context, str(id(context)))
 
                 schema = cache.get(key, None)
                 if schema is None:
