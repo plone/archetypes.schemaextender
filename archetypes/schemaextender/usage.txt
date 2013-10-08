@@ -28,6 +28,7 @@ the methods in zope.interface.
     ...     """
 
     >>> from Products.ATContentTypes.content import document
+    >>> old_spec = document.ATDocument.__implemented__
     >>> zope.interface.classImplements(document.ATDocument, ITaggable)
 
 Let's ensure that this applies to a properly created document:
@@ -290,3 +291,7 @@ At this point, we should have saved the tags and applied the marker interface.
 
     >>> IHighlighted.providedBy(test_doc)
     True
+
+Clean up after ourselves.
+
+    >>> document.ATDocument.__implemented__ = old_spec
