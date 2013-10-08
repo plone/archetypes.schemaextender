@@ -27,15 +27,13 @@ the methods in zope.interface.
     ...     """Taggable content
     ...     """
 
-    >>> from Products.ATContentTypes.content import document
-    >>> zope.interface.classImplements(document.ATDocument, ITaggable)
-
 Let's ensure that this applies to a properly created document:
 
     >>> self.folder.invokeFactory('Document', 'taggable-document')
     'taggable-document'
 
     >>> taggable_doc = getattr(self.folder, 'taggable-document')
+    >>> zope.interface.alsoProvides(taggable_doc, ITaggable)
     >>> ITaggable.providedBy(taggable_doc)
     True
 
