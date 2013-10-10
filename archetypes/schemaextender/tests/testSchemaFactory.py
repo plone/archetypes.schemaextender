@@ -10,7 +10,7 @@ class NonExtenderTests(TestCase):
 
     def testNoExtenderMeansNoChanges(self):
         schema=instanceSchemaFactory(self.instance)
-        self.failUnless(schema is self.instance.schema)
+        self.assertTrue(schema is self.instance.schema)
 
 
 class ExtenderTests(TestCase):
@@ -27,7 +27,7 @@ class ExtenderTests(TestCase):
     def testExtendWithSingleField(self):
         Extender.fields=[MockField()]
         schema=instanceSchemaFactory(self.instance)
-        self.failUnless("MockField" in schema)
+        self.assertTrue("MockField" in schema)
 
     def testExtendTwiceCreateOnce(self):
         Extender.fields=[MockField(), MockField()]
