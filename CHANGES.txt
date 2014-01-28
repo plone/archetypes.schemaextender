@@ -9,6 +9,8 @@ Changelog
 2.1.2 (2013-01-13)
 ------------------
 
+- PEP8 changes, documentation updates.
+  [maurits]
 
 2.1.1 - 2011-07-04
 ------------------
