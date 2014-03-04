@@ -29,6 +29,8 @@ class BaseExtensionField(object):
         return accessor
 
     def getEditAccessor(self, instance):
+        if not hasattr(self, 'getRaw'):
+            return None
         def edit_accessor(**kw):
             return self.getRaw(instance, **kw)
         return edit_accessor

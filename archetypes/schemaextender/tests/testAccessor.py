@@ -1,6 +1,6 @@
 from zope.interface import Interface, implements, classImplements
 from zope.component import adapts, provideAdapter
-from Products.Archetypes.atapi import StringField, StringWidget
+from Products.Archetypes.atapi import ComputedField, StringField, StringWidget
 from Products.ATContentTypes.content.document import ATDocument
 from archetypes.schemaextender.interfaces import ISchemaExtender
 from archetypes.schemaextender.field import ExtensionField
@@ -14,6 +14,8 @@ class IFoo(Interface):
 class FooField(ExtensionField, StringField):
     """ extension field """
 
+class ExtendedComputedField(ExtensionField, ComputedField):
+    """ computed extension field """
 
 class Extender(object):
     implements(ISchemaExtender)
@@ -28,6 +30,7 @@ class Extender(object):
         FooField('hmm',
             index_method = lambda: 'hmm',
             widget = StringWidget(label='hmm', description='hmm!')),
+        ExtendedComputedField('ho', expression = '"I compute ho"'),
     ]
 
     def __init__(self, context):
@@ -58,6 +61,13 @@ class AccessorTests(TestCase):
         doc = self.folder[self.folder.invokeFactory('Document', 'doc', hmm=23)]
         field = doc.getField('hmm')
         self.assertRaises(ValueError, field.getIndexAccessor, doc)
+        
+    def testComputedField(self):
+        doc = self.folder[self.folder.invokeFactory('Document', 'doc')]
+        field = doc.getField('ho')
+        self.assertEqual(field.getAccessor(doc)(), 'I compute ho')
+        self.assertEqual(field.getEditAccessor(doc), None)
+        self.assertEqual(field.getIndexAccessor(doc)(), 'I compute ho')
 
 
 def test_suite():
