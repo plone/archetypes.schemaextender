@@ -4,7 +4,7 @@ Changelog
 2.1.4 (unreleased)
 ------------------
 
-- archetypes.schemaextender assumes presence of getRaw method which 
+- archetypes.schemaextender assumes presence of getRaw method which
   ComputedField does not provide
   https://dev.plone.org/ticket/11315
   [anthonygerrard]

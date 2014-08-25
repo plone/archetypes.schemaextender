@@ -61,7 +61,7 @@ class AccessorTests(TestCase):
         doc = self.folder[self.folder.invokeFactory('Document', 'doc', hmm=23)]
         field = doc.getField('hmm')
         self.assertRaises(ValueError, field.getIndexAccessor, doc)
-        
+
     def testComputedField(self):
         doc = self.folder[self.folder.invokeFactory('Document', 'doc')]
         field = doc.getField('ho')

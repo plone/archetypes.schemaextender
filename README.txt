@@ -14,7 +14,7 @@ an ISchema adapter for BaseContent and BaseFolder, making it responsible
 for providing the schema for all types derived from those classes. This
 includes all standard Plone content types. Since only one ISchema adapter
 can be active schemaextender provides its own mechanism to modify schemas
-using named adapters. Named adapters are allowing to register more than one 
+using named adapters. Named adapters are allowing to register more than one
 schemaextender per adapted interface.
 
 There are three types of adapters available:
@@ -25,9 +25,9 @@ There are three types of adapters available:
   new fields and reorder fields. This is more costly than just adding new
   fields.
 
-* IBrowserLayerAwareExtender: this adapters are making use of 
-  plone.browserlayer, so that the extender is only available if a layer is 
-  registered. 
+* IBrowserLayerAwareExtender: this adapters are making use of
+  plone.browserlayer, so that the extender is only available if a layer is
+  registered.
 
 * ISchemaModifier: this is a low-level hook that allows direct manipulation
   of the schema. This can be very dangerous and should never be used if one
@@ -143,7 +143,7 @@ marker interface on an object::
 Layer-aware example
 ===================
 
-By using ``archetypes.schemaextender.IBrowserLayerAwareExtender`` the 
+By using ``archetypes.schemaextender.IBrowserLayerAwareExtender`` the
 extender is only applied if a specific browser layer is installed on the site.
 
 .. note ::
@@ -155,48 +155,48 @@ extender is only applied if a specific browser layer is installed on the site.
 Below is an example of ``extender.py`` which adds new field on *Dates* edit tab::
 
         """
-        
+
             Retrofit re-review dates to Archetypes schema.
-        
+
         """
-        
+
         __docformat__ = "epytext"
-        
+
         from zope.component import adapts
         from zope.interface import implements
-        
+
         from Products.Archetypes.public import BooleanWidget
         from Products.ATContentTypes.interface import IATDocument
         from Products.Archetypes import public as atapi
         from Products.Archetypes.interfaces import IBaseContent
-        
+
         from archetypes.schemaextender.field import ExtensionField
         from archetypes.schemaextender.interfaces import (
           ISchemaExtender, IOrderableSchemaExtender, IBrowserLayerAwareExtender)
-        
+
         # Your add-on browserlayer
         from your.package.interfaces import IAddOnInstalled
-        
+
         class ExtensionDateField(ExtensionField, atapi.DateTimeField):
             """ Retrofitted date field """
-            
-        
+
+
         class RevisitExtender(object):
-            """ Include revisit date on all objects. 
-            
+            """ Include revisit date on all objects.
+
             An example extended which will create a new field on Dates
             tab between effective date and expiration date.
             """
-            
-            # This extender will apply to all Archetypes based content 
+
+            # This extender will apply to all Archetypes based content
             adapts(IBaseContent)
-            
+
             # We use both orderable and browser layer aware sensitive properties
             implements(IOrderableSchemaExtender, IBrowserLayerAwareExtender)
-            
+
             # Don't do schema extending unless our add-on product is installed on Plone site
             layer = IAddOnInstalled
-        
+
             fields = [
                 ExtensionDateField("revisitDate",
                     schemata="dates",
@@ -208,25 +208,25 @@ Below is an example of ``extender.py`` which adds new field on *Dates* edit tab:
                     ),
                 )
             ]
-        
+
             def __init__(self, context):
                 self.context = context
-        
+
             def getOrder(self, schematas):
                 """ Manipulate the order in which fields appear.
-                
+
                 @param schematas: Dictonary of schemata name -> field lists
-                
+
                 @return: Dictionary of reordered field lists per schemata.
                 """
                 schematas["dates"] = ['effectiveDate', 'revisitDate', 'expirationDate',
                                       'creation_date', 'modification_date']
-                
+
                 return schematas
-        
+
             def getFields(self):
                 """
-                @return: List of new fields we contribute to content. 
+                @return: List of new fields we contribute to content.
                 """
                 return self.fields
 
