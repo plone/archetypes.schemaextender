@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.4 (unreleased)
+2.1.4 (2014-09-08)
 ------------------
 
 - archetypes.schemaextender assumes presence of getRaw method which
