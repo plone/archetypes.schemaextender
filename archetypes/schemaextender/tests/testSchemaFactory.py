@@ -1,6 +1,6 @@
 import unittest
 from archetypes.schemaextender.extender import instanceSchemaFactory
-from archetypes.schemaextender.tests.case import TestCase
+from archetypes.schemaextender.tests.base import TestCase
 from archetypes.schemaextender.tests.mocks import Extender
 from archetypes.schemaextender.tests.mocks import OrderableExtender
 from archetypes.schemaextender.tests.mocks import MockField

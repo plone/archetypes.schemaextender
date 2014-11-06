@@ -1,34 +1,34 @@
-from Products.PloneTestCase.ptc import setupPloneSite, FunctionalTestCase
-from Products.PloneTestCase.layer import PloneSite
-
-# BBB Zope 2.12
-try:
-    from OFS import metaconfigure
-    from Zope2.App.zcml import load_config
-except ImportError:
-    from Products.Five import fiveconfigure as metaconfigure
-    from Products.Five.zcml import load_config
+import unittest
+from zope.interface import implements
+from zope.component import provideAdapter
+from zope.component import getGlobalSiteManager
+from archetypes.schemaextender.extender import instanceSchemaFactory
+from archetypes.schemaextender.interfaces import IExtensible
+from plone.app.testing.bbb import PloneTestCase
+from Products.Archetypes.public import BaseObject
 
 
-setupPloneSite()
+class ASTestCase(PloneTestCase):
+    """ Base class for testing archetypes.schemaextender """
 
 
-class TestCase(FunctionalTestCase):
+class ExtensibleType(BaseObject):
+    """A very simple extensible type."""
+    implements(IExtensible)
 
-    class layer(PloneSite):
 
-        @classmethod
-        def setUp(cls):
-            metaconfigure.debug_mode = True
-            from archetypes import schemaextender
-            load_config('configure.zcml', schemaextender)
-            metaconfigure.debug_mode = False
+class TestCase(unittest.TestCase):
 
-        @classmethod
-        def tearDown(cls):
-            pass
+    def setUp(self):
+        self._adapters=[]
+        self.provideAdapter(instanceSchemaFactory)
+        self.instance=ExtensibleType("id")
 
-    def clearSchemaCache(self):
-        attr = '__archetypes_schemaextender_cache'
-        if hasattr(self.portal.REQUEST, attr):
-            delattr(self.portal.REQUEST, attr)
+    def tearDown(self):
+        sm=getGlobalSiteManager()
+        for (args, kwargs) in self._adapters:
+            sm.unregisterAdapter(*args, **kwargs)
+
+    def provideAdapter(self, *args, **kwargs):
+        provideAdapter(*args, **kwargs)
+        self._adapters.append((args, kwargs))

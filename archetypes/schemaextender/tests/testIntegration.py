@@ -2,9 +2,8 @@ import doctest
 from unittest import TestSuite
 
 from zope.component import testing
-from Testing import ZopeTestCase as ztc
-
-from archetypes.schemaextender.tests.base import TestCase
+from plone.testing import layered
+from plone.app.testing.bbb import PTC_FUNCTIONAL_TESTING
 
 
 def test_suite():
@@ -14,8 +13,8 @@ def test_suite():
            module='archetypes.schemaextender.extender',
            setUp=testing.setUp, tearDown=testing.tearDown),
 
-        ztc.FunctionalDocFileSuite(
+        layered(doctest.DocFileSuite(
             'usage.txt', package='archetypes.schemaextender',
-            test_class=TestCase),
+            ), layer=PTC_FUNCTIONAL_TESTING),
 
         ])

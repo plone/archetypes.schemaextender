@@ -3,7 +3,7 @@ from zope.interface import implements
 from zope.interface import implementsOnly
 from zope.interface.interfaces import IInterface
 from zope.component import adapts
-from archetypes.schemaextender.tests.case import ExtensibleType
+from archetypes.schemaextender.tests.base import ExtensibleType
 from archetypes.schemaextender.interfaces import ISchemaExtender
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
 from archetypes.schemaextender.interfaces import ISchemaModifier

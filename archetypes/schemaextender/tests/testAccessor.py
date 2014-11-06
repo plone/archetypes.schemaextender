@@ -4,7 +4,7 @@ from Products.Archetypes.atapi import ComputedField, StringField, StringWidget
 from Products.ATContentTypes.content.document import ATDocument
 from archetypes.schemaextender.interfaces import ISchemaExtender
 from archetypes.schemaextender.field import ExtensionField
-from archetypes.schemaextender.tests.base import TestCase
+from archetypes.schemaextender.tests.base import ASTestCase as TestCase
 
 
 class IFoo(Interface):
