@@ -38,7 +38,7 @@ print "Benchmark without atse: %.2f seconds" % bench()
 
 classImplements(ExtensibleType, IExtensible)
 provideAdapter(instanceSchemaFactory)
-sm=getGlobalSiteManager()
+sm = getGlobalSiteManager()
 
 provideAdapter(Extender, name=u"atse.benchmark")
 print "Benchmark with Extender: %.2f seconds" % bench()
