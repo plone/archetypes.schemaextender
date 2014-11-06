@@ -251,7 +251,7 @@ test.
     >>> from plone.app.testing import TEST_USER_PASSWORD
     >>> browser = Browser(layer['app'])
     >>> browser.addHeader('Authorization',
-    ...                   'Basic %s:%s' % (TEST_USER_NAME, TEST_USER_PASSWORD))
+    ...                   'Basic %s:%s' % (TEST_USER_ID, TEST_USER_PASSWORD))
 
     >>> browser.open(folder_url)
     >>> browser.getLink('Add new').click()
