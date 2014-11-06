@@ -14,8 +14,9 @@ for highlighted items.
 For the purposes of the test, we will store the vocabulary and the default
 in properties on the site root.
 
-    >>> self.portal.manage_addProperty('tags_vocab', ['A', 'B', 'C'], 'lines')
-    >>> self.portal.manage_addProperty('tags_default', ['A', 'B'], 'lines')
+    >>> portal = layer['portal']
+    >>> portal.manage_addProperty('tags_vocab', ['A', 'B', 'C'], 'lines')
+    >>> portal.manage_addProperty('tags_default', ['A', 'B'], 'lines')
 
 Schema extenders are applied by adaptation. One way to achieve that, is to
 use a marker interface on content types that you want to extend, and apply
@@ -32,10 +33,12 @@ the methods in zope.interface.
 
 Let's ensure that this applies to a properly created document:
 
-    >>> self.folder.invokeFactory('Document', 'taggable-document')
+    >>> from plone.app.testing import TEST_USER_ID
+    >>> folder = portal.portal_membership.getHomeFolder(TEST_USER_ID)
+    >>> folder.invokeFactory('Document', 'taggable-document')
     'taggable-document'
 
-    >>> taggable_doc = getattr(self.folder, 'taggable-document')
+    >>> taggable_doc = getattr(folder, 'taggable-document')
     >>> ITaggable.providedBy(taggable_doc)
     True
 
@@ -152,7 +155,11 @@ But look!
     >>> zope.component.provideAdapter(TaggingSchemaExtender,
     ...                               name=u"archetypes.schemaextender.tests")
 
-    >>> self.clearSchemaCache()
+    >>> def clearSchemaCache(request):
+    ...    attr = '__archetypes_schemaextender_cache'
+    ...    if hasattr(request, attr):
+    ...        delattr(request, attr)
+    >>> clearSchemaCache(layer['request'])
     >>> schema = taggable_doc.Schema()
     >>> 'schemaextender_test_tags' in schema
     True
@@ -225,7 +232,7 @@ incompatible type, you can expect trouble.
     >>> zope.component.provideAdapter(SchemaModifier,
     ...                               name=u"archetypes.schemaextender.tests")
 
-    >>> self.clearSchemaCache()
+    >>> clearSchemaCache(layer['request'])
     >>> schema = taggable_doc.Schema()
     >>> schema['description'].widget.label
     'Blurb'
@@ -233,23 +240,23 @@ incompatible type, you can expect trouble.
 Finally, let's ensure that this works through-the-web, using a browser
 test.
 
-    # BBB Zope 2.12
-    >>> try:
-    ...     from Testing.testbrowser import Browser
-    ... except ImportError:
-    ...     from Products.Five.testbrowser import Browser
-    >>> browser = Browser()
-    >>> folder_url = self.folder.absolute_url()
-    >>> self.portal.error_log._ignored_exceptions = ()
+    >>> from plone.testing.z2 import Browser
+    >>> browser = Browser(layer['app'])
+    >>> folder_url = folder.absolute_url()
+    >>> portal.error_log._ignored_exceptions = ()
 
-    >>> from Products.PloneTestCase.setup import default_user, default_password
-    >>> browser = Browser()
+    >>> from transaction import commit
+    >>> commit()
+    >>> from plone.app.testing import TEST_USER_NAME
+    >>> from plone.app.testing import TEST_USER_PASSWORD
+    >>> browser = Browser(layer['app'])
     >>> browser.addHeader('Authorization',
-    ...                   'Basic %s:%s' % (default_user, default_password))
+    ...                   'Basic %s:%s' % (TEST_USER_NAME, TEST_USER_PASSWORD))
 
     >>> browser.open(folder_url)
     >>> browser.getLink('Add new').click()
     >>> browser.getControl('Page').click()
+    >>> browser.handleErrors = False
     >>> browser.getControl('Add').click()
 
 Now we are on the edit page. Let's find and set some values, as well as
@@ -283,7 +290,7 @@ Let's fix that:
 
 At this point, we should have saved the tags and applied the marker interface.
 
-    >>> test_doc = getattr(self.folder, 'test-doc')
+    >>> test_doc = getattr(folder, 'test-doc')
     >>> tags_field = test_doc.Schema()['schemaextender_test_tags']
     >>> tags_field.get(test_doc)
     ('A',)

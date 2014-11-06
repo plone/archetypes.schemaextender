@@ -4,7 +4,7 @@ from Products.Archetypes.atapi import ComputedField, StringField, StringWidget
 from Products.ATContentTypes.content.document import ATDocument
 from archetypes.schemaextender.interfaces import ISchemaExtender
 from archetypes.schemaextender.field import ExtensionField
-from archetypes.schemaextender.tests.base import TestCase
+from archetypes.schemaextender.tests.base import ASTestCase as TestCase
 
 
 class IFoo(Interface):
@@ -14,8 +14,10 @@ class IFoo(Interface):
 class FooField(ExtensionField, StringField):
     """ extension field """
 
+
 class ExtendedComputedField(ExtensionField, ComputedField):
     """ computed extension field """
+
 
 class Extender(object):
     implements(ISchemaExtender)
@@ -30,8 +32,7 @@ class Extender(object):
         FooField('hmm',
             index_method = lambda: 'hmm',
             widget = StringWidget(label='hmm', description='hmm!')),
-        ExtendedComputedField('ho', expression = '"I compute ho"'),
-    ]
+        ExtendedComputedField('ho', expression = '"I compute ho"'), ]
 
     def __init__(self, context):
         self.context = context
@@ -68,8 +69,3 @@ class AccessorTests(TestCase):
         self.assertEqual(field.getAccessor(doc)(), 'I compute ho')
         self.assertEqual(field.getEditAccessor(doc), None)
         self.assertEqual(field.getIndexAccessor(doc)(), 'I compute ho')
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)
