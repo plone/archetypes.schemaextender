@@ -47,11 +47,3 @@ class OrderableExtenderTests(ExtenderTests):
         schema = instanceSchemaFactory(self.instance)
         order = [f.getName() for f in schema.getSchemataFields("default")]
         self.assertEqual(order[0], "MockField")
-
-
-def test_suite():
-    suite=unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(NonExtenderTests))
-    suite.addTest(unittest.makeSuite(ExtenderTests))
-    suite.addTest(unittest.makeSuite(OrderableExtenderTests))
-    return suite

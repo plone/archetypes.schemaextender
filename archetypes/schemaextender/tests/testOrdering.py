@@ -93,10 +93,3 @@ class SetSchemaOrderTests(unittest.TestCase):
         set_schema_order(schema, {"one": ["one", "two"]})
         self.assertEqual(schema.getSchemataNames(), ["one"])
         self.assertEqual(schema._names, ["one", "two"])
-
-
-def test_suite():
-    suite=unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(GetSchemaOrderTests))
-    suite.addTest(unittest.makeSuite(SetSchemaOrderTests))
-    return suite

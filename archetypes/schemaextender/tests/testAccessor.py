@@ -68,8 +68,3 @@ class AccessorTests(TestCase):
         self.assertEqual(field.getAccessor(doc)(), 'I compute ho')
         self.assertEqual(field.getEditAccessor(doc), None)
         self.assertEqual(field.getIndexAccessor(doc)(), 'I compute ho')
-
-
-def test_suite():
-    from unittest import defaultTestLoader
-    return defaultTestLoader.loadTestsFromName(__name__)
