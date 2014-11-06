@@ -14,12 +14,8 @@ from plone.uuid.interfaces import IUUID
 
 from zope.site.hooks import getSite
 
-try:
-    from plone.browserlayer.utils import registered_layers
-    has_plone_browserlayer = True
-except ImportError:
-    # BBB, for naked plone 3.0, should be removed in future
-    has_plone_browserlayer = False
+from plone.browserlayer.utils import registered_layers
+has_plone_browserlayer = True
 
 
 CACHE_KEY = '__archetypes_schemaextender_cache'
@@ -63,11 +59,11 @@ def validate_schema_order(schema, new_order):
         new_fields = new_fields.union(set(fields))
 
     if len(current_fields) != len(new_fields):
-        raise ValueError("The number of fields in the new order differs "\
+        raise ValueError("The number of fields in the new order differs "
                          "from the number of fields in the schema.")
 
     if current_fields != new_fields:
-        raise ValueError("The set of fields in the new order differs "\
+        raise ValueError("The set of fields in the new order differs "
                          "from the set of fields in the schema.")
 
 
@@ -186,7 +182,7 @@ def instanceSchemaFactory(context):
         for field in extender.getFields():
             schema.addField(field)
             if order is not None:
-                if not field.schemata in order.keys():
+                if field.schemata not in order.keys():
                     order[field.schemata] = list()
                 order[field.schemata].append(field.getName())
         if IOrderableSchemaExtender.providedBy(extender):
@@ -202,7 +198,7 @@ def instanceSchemaFactory(context):
     if len(modifiers) > 0:
         for name, modifier in modifiers:
             if IBrowserLayerAwareExtender.providedBy(modifier) and \
-               (not has_plone_browserlayer or \
+               (not has_plone_browserlayer or
                modifier.layer not in registered_layers()):
                 continue
             modifier.fiddle(schema)

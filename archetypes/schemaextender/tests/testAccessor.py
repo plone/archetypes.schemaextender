@@ -14,8 +14,10 @@ class IFoo(Interface):
 class FooField(ExtensionField, StringField):
     """ extension field """
 
+
 class ExtendedComputedField(ExtensionField, ComputedField):
     """ computed extension field """
+
 
 class Extender(object):
     implements(ISchemaExtender)
@@ -30,8 +32,7 @@ class Extender(object):
         FooField('hmm',
             index_method = lambda: 'hmm',
             widget = StringWidget(label='hmm', description='hmm!')),
-        ExtendedComputedField('ho', expression = '"I compute ho"'),
-    ]
+        ExtendedComputedField('ho', expression = '"I compute ho"'), ]
 
     def __init__(self, context):
         self.context = context
