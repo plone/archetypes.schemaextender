@@ -1,5 +1,5 @@
 import unittest
-from zope.interface import implements
+from zope.interface import implementer
 from zope.component import provideAdapter
 from zope.component import getGlobalSiteManager
 from archetypes.schemaextender.extender import instanceSchemaFactory
@@ -12,9 +12,9 @@ class ASTestCase(PloneTestCase):
     """ Base class for testing archetypes.schemaextender """
 
 
+@implementer(IExtensible)
 class ExtensibleType(BaseObject):
     """A very simple extensible type."""
-    implements(IExtensible)
 
 
 class TestCase(unittest.TestCase):

@@ -1,6 +1,7 @@
 from zope.interface import Interface
+from zope.interface import implementer
+from zope.interface import implementer_only
 from zope.interface import implements
-from zope.interface import implementsOnly
 from zope.interface.interfaces import IInterface
 from zope.component import adapts
 from archetypes.schemaextender.tests.base import ExtensibleType
@@ -15,8 +16,8 @@ class IHighlighted(Interface):
     """
 
 
+@implementer(ISchemaExtender)
 class Extender(object):
-    implements(ISchemaExtender)
     adapts(ExtensibleType)
 
     fields = []
@@ -28,8 +29,8 @@ class Extender(object):
         return self.fields
 
 
+@implementer_only(IOrderableSchemaExtender)
 class OrderableExtender(Extender):
-    implementsOnly(IOrderableSchemaExtender)
     adapts(ExtensibleType)
 
     def getOrder(self, original):
@@ -50,8 +51,8 @@ class OrderableExtender(Extender):
         return original
 
 
+@implementer(ISchemaModifier)
 class SchemaModifier(object):
-    implements(ISchemaModifier)
     adapts(ExtensibleType)
 
     def __init__(self, context):

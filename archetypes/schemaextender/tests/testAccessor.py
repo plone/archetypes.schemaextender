@@ -1,4 +1,4 @@
-from zope.interface import Interface, implements, classImplements
+from zope.interface import Interface, implementer, classImplements
 from zope.component import adapts, provideAdapter
 from Products.Archetypes.atapi import ComputedField, StringField, StringWidget
 from Products.ATContentTypes.content.document import ATDocument
@@ -19,8 +19,8 @@ class ExtendedComputedField(ExtensionField, ComputedField):
     """ computed extension field """
 
 
+@implementer(ISchemaExtender)
 class Extender(object):
-    implements(ISchemaExtender)
     adapts(IFoo)
 
     fields = [
