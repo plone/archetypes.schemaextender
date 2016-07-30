@@ -1,4 +1,4 @@
-from zope.interface import implements
+from zope.interface import implementer
 from Products.Archetypes import atapi
 
 from archetypes.schemaextender.interfaces import IExtensionField
@@ -12,14 +12,13 @@ except ImportError:
     HAS_LP = False
 
 
+@implementer(IExtensionField)
 class BaseExtensionField(object):
     """Mix-in class to make Archetypes fields not depend on generated
     accessors and mutators, and use AnnotationStorage by default.
 
     See README.txt for more information.
     """
-
-    implements(IExtensionField)
 
     storage = atapi.AnnotationStorage()
 
@@ -52,12 +51,12 @@ class BaseExtensionField(object):
             return getattr(instance, name)
 
 
+@implementer(ITranslatableExtensionField)
 class TranslatableExtensionField(BaseExtensionField):
     """Extension field for a translatable content item.
 
     Needs to copy the language-independant values across translations.
     """
-    implements(ITranslatableExtensionField)
 
     def getMutator(self, instance):
         name = self.getName()
