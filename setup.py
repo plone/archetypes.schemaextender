@@ -10,9 +10,11 @@ setup(
                       open("CHANGES.txt").read()),
     classifiers=[
         "Framework :: Plone",
+        "Framework :: Plone :: 4.3",
         "Framework :: Plone :: 5.0",
         "Framework :: Zope2",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
     ],
     keywords='Archetypes Schema extend',
