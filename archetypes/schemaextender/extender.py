@@ -1,6 +1,6 @@
 import os
 
-from Globals import DevelopmentMode
+from App.config import getConfiguration
 from Products.Archetypes.interfaces import ISchema
 from Products.Archetypes.utils import OrderedDict
 from archetypes.schemaextender.interfaces import ISchemaExtender
@@ -190,7 +190,7 @@ def instanceSchemaFactory(context):
                 # we need to get the current order first
                 order = get_schema_order(schema)
             order = extender.getOrder(order)
-            if DevelopmentMode:
+            if getConfiguration().debug_mode:
                 validate_schema_order(schema, order)
     if order is not None:
         set_schema_order(schema, order)
