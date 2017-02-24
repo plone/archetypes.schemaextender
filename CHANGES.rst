@@ -14,6 +14,9 @@ New features:
 
 Bug fixes:
 
+- Update docs about ``Products.ATContentTypes.interfaces`` import location.
+  [thet]
+
 - Fix imports from Globals that was removed in Zope4
   [pbauer]
 

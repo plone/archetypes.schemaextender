@@ -62,7 +62,7 @@ Next we have to create an adapter that will add this field::
     from zope.interface import implements
     from archetypes.schemaextender.interfaces import ISchemaExtender
     from Products.Archetypes.public import BooleanWidget
-    from Products.ATContentTypes.interface import IATDocument
+    from Products.ATContentTypes.interfaces import IATDocument
 
     class PageExtender(object):
         adapts(IATDocument)
@@ -166,7 +166,7 @@ Below is an example of ``extender.py`` which adds new field on *Dates* edit tab:
         from zope.interface import implements
 
         from Products.Archetypes.public import BooleanWidget
-        from Products.ATContentTypes.interface import IATDocument
+        from Products.ATContentTypes.interfaces import IATDocument
         from Products.Archetypes import public as atapi
         from Products.Archetypes.interfaces import IBaseContent
 
