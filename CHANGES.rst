@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Add Python 2 / 3 compatibility.  [maurits]
 
 
 2.1.7 (2017-03-09)
