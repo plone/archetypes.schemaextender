@@ -4,6 +4,9 @@ from Products.Archetypes import atapi
 from archetypes.schemaextender.interfaces import IExtensionField
 from archetypes.schemaextender.interfaces import ITranslatableExtensionField
 
+import six
+
+
 HAS_LP = True
 try:
     from Products.LinguaPlone.interfaces import ITranslatable
@@ -45,7 +48,7 @@ class BaseExtensionField(object):
             return self.getAccessor(instance)
         elif name == '_at_edit_accessor':
             return self.getEditAccessor(instance)
-        elif not isinstance(name, basestring):
+        elif not isinstance(name, six.string_types):
             raise ValueError('Bad index accessor value: %r', name)
         else:
             return getattr(instance, name)

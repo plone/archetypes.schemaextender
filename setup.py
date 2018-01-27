@@ -30,6 +30,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'setuptools',
+        'six',
         'plone.uuid'
     ],
     entry_points="""

@@ -15,6 +15,10 @@ from plone.uuid.interfaces import IUUID
 from zope.site.hooks import getSite
 
 from plone.browserlayer.utils import registered_layers
+
+import six
+
+
 has_plone_browserlayer = True
 
 
@@ -51,11 +55,11 @@ def validate_schema_order(schema, new_order):
     current_order = get_schema_order(schema)
 
     current_fields = set()
-    for name, fields in current_order.iteritems():
+    for name, fields in six.iteritems(current_order):
         current_fields = current_fields.union(set(fields))
 
     new_fields = set()
-    for name, fields in new_order.iteritems():
+    for name, fields in six.iteritems(new_order):
         new_fields = new_fields.union(set(fields))
 
     if len(current_fields) != len(new_fields):

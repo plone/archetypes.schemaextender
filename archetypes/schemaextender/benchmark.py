@@ -33,36 +33,37 @@ def bench():
     delta = time.time() - start
     return delta
 
-print "Starting benchmark"
-print "Benchmark without atse: %.2f seconds" % bench()
+print("Starting benchmark")
+print("Benchmark without atse: {0:.2f} seconds".format(bench()))
 
 classImplements(ExtensibleType, IExtensible)
 provideAdapter(instanceSchemaFactory)
 sm = getGlobalSiteManager()
 
 provideAdapter(Extender, name=u"atse.benchmark")
-print "Benchmark with Extender: %.2f seconds" % bench()
+print("Benchmark with Extender: {0:.2f} seconds".format(bench()))
 sm.unregisterAdapter(Extender, name=u"atse.benchmark")
 
 provideAdapter(OrderableExtender, name=u"atse.benchmark")
-print "Benchmark with OrderableExtender: %.2f seconds" % bench()
+print("Benchmark with OrderableExtender: {0:.2f} seconds".format(bench()))
 sm.unregisterAdapter(OrderableExtender, name=u"atse.benchmark")
 
 provideAdapter(SchemaModifier, name=u"atse.benchmark")
-print "Benchmark with SchemaModifier: %.2f seconds" % bench()
+print("Benchmark with SchemaModifier: {0:.2f} seconds".format(bench()))
 sm.unregisterAdapter(SchemaModifier, name=u"atse.benchmark")
 
 sm.unregisterAdapter(instanceSchemaFactory)
 provideAdapter(cachingInstanceSchemaFactory)
 
 provideAdapter(Extender, name=u"atse.benchmark")
-print "Benchmark with cached Extender: %.2f seconds" % bench()
+print("Benchmark with cached Extender: {0:.2f} seconds".format(bench()))
 sm.unregisterAdapter(Extender, name=u"atse.benchmark")
 
 provideAdapter(OrderableExtender, name=u"atse.benchmark")
-print "Benchmark with cached OrderableExtender: %.2f seconds" % bench()
+print("Benchmark with cached OrderableExtender: {0:.2f} seconds".format(
+    bench()))
 sm.unregisterAdapter(OrderableExtender, name=u"atse.benchmark")
 
 provideAdapter(SchemaModifier, name=u"atse.benchmark")
-print "Benchmark with cached SchemaModifier: %.2f seconds" % bench()
+print("Benchmark with cached SchemaModifier: {0:.2f} seconds".format(bench()))
 sm.unregisterAdapter(SchemaModifier, name=u"atse.benchmark")
