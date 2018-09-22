@@ -4,7 +4,7 @@ from zope.component import provideAdapter
 from zope.component import getGlobalSiteManager
 from archetypes.schemaextender.extender import instanceSchemaFactory
 from archetypes.schemaextender.interfaces import IExtensible
-from plone.app.testing.bbb import PloneTestCase
+from plone.app.testing.bbb_at import PloneTestCase
 from Products.Archetypes.public import BaseObject
 
 
