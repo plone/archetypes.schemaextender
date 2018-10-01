@@ -22,7 +22,7 @@ setup(
     keywords='Archetypes Schema extend',
     author='Florian Schulze',
     author_email='plone-developers@lists.sourceforge.net',
-    url='https://pypi.python.org/pypi/archetypes.schemaextender',
+    url='https://pypi.org/project/archetypes.schemaextender',
     license='GPL',
     packages=find_packages(exclude=['ez_setup']),
     namespace_packages=['archetypes'],
