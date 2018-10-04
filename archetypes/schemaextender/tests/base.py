@@ -20,10 +20,9 @@ class ExtensibleType(BaseObject):
 
 
 class TestCase(unittest.TestCase):
+
+    layer = zca.UNIT_TESTING
+
     def setUp(self):
-        zca.pushGlobalRegistry()
         provideAdapter(instanceSchemaFactory)
         self.instance = ExtensibleType("id")
-
-    def tearDown(self):
-        zca.popGlobalRegistry()
