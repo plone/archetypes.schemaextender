@@ -1,14 +1,15 @@
-from zope.interface import Interface
+# -*- coding: utf-8 -*-
+from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
+from archetypes.schemaextender.interfaces import ISchemaExtender
+from archetypes.schemaextender.interfaces import ISchemaModifier
+from archetypes.schemaextender.tests.base import ExtensibleType
+from Products.Archetypes.interfaces.field import IField
+from zope.component import adapts
 from zope.interface import implementer
 from zope.interface import implementer_only
 from zope.interface import implements
+from zope.interface import Interface
 from zope.interface.interfaces import IInterface
-from zope.component import adapts
-from archetypes.schemaextender.tests.base import ExtensibleType
-from archetypes.schemaextender.interfaces import ISchemaExtender
-from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
-from archetypes.schemaextender.interfaces import ISchemaModifier
-from Products.Archetypes.interfaces.field import IField
 
 
 class IHighlighted(Interface):
@@ -37,17 +38,17 @@ class OrderableExtender(Extender):
         """"Overly complex logic: put our fields first."""
         if not self.fields:
             return original
-        toadd=[]
+        toadd = []
         for field in self.fields:
-            field=field.getName()
+            field = field.getName()
             try:
-                index=original["default"].index(field)
+                index = original["default"].index(field)
             except ValueError:
                 continue
             del original["default"][index]
             toadd.append(field)
 
-        original["default"]=toadd + original["default"]
+        original["default"] = toadd + original["default"]
         return original
 
 
@@ -70,8 +71,8 @@ class MockField:
     type = "mock"
 
     def __init__(self, name="MockField", schemata="default"):
-        self.name=name
-        self.schemata=schemata
+        self.name = name
+        self.schemata = schemata
 
     def toString(self):
         return "MockField"

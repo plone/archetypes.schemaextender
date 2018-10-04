@@ -1,10 +1,16 @@
-from zope.interface import Interface, implementer, classImplements
-from zope.component import adapts, provideAdapter
-from Products.Archetypes.atapi import ComputedField, StringField, StringWidget
-from Products.ATContentTypes.content.document import ATDocument
-from archetypes.schemaextender.interfaces import ISchemaExtender
+# -*- coding: utf-8 -*-
 from archetypes.schemaextender.field import ExtensionField
+from archetypes.schemaextender.interfaces import ISchemaExtender
 from archetypes.schemaextender.tests.base import ASTestCase as TestCase
+from Products.Archetypes.atapi import ComputedField
+from Products.Archetypes.atapi import StringField
+from Products.Archetypes.atapi import StringWidget
+from Products.ATContentTypes.content.document import ATDocument
+from zope.component import adapter
+from zope.component import provideAdapter
+from zope.interface import classImplements
+from zope.interface import implementer
+from zope.interface import Interface
 
 
 class IFoo(Interface):
@@ -20,19 +26,23 @@ class ExtendedComputedField(ExtensionField, ComputedField):
 
 
 @implementer(ISchemaExtender)
+@adapter(IFoo)
 class Extender(object):
-    adapts(IFoo)
 
     fields = [
-        FooField('foo',
-            widget = StringWidget(label='foo', description='foo!')),
-        FooField('bar',
-            index_method = 'title_or_id',
-            widget = StringWidget(label='bar', description='bar!')),
-        FooField('hmm',
-            index_method = lambda: 'hmm',
-            widget = StringWidget(label='hmm', description='hmm!')),
-        ExtendedComputedField('ho', expression = '"I compute ho"'), ]
+        FooField('foo', widget=StringWidget(label='foo', description='foo!')),
+        FooField(
+            'bar',
+            index_method='title_or_id',
+            widget=StringWidget(label='bar', description='bar!'),
+        ),
+        FooField(
+            'hmm',
+            index_method=lambda: 'hmm',
+            widget=StringWidget(label='hmm', description='hmm!'),
+        ),
+        ExtendedComputedField('ho', expression='"I compute ho"'),
+    ]
 
     def __init__(self, context):
         self.context = context
@@ -42,7 +52,6 @@ class Extender(object):
 
 
 class AccessorTests(TestCase):
-
     def afterSetUp(self):
         classImplements(ATDocument, IFoo)
         provideAdapter(Extender, name=u'foo')
