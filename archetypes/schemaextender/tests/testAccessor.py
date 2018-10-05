@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from archetypes.schemaextender.field import ExtensionField
 from archetypes.schemaextender.interfaces import ISchemaExtender
-from archetypes.schemaextender.tests.base import ASTestCase as TestCase
+from archetypes.schemaextender.tests.base import ASTestCase
+from plone.testing import zca
 from Products.Archetypes.atapi import ComputedField
 from Products.Archetypes.atapi import StringField
 from Products.Archetypes.atapi import StringWidget
@@ -51,10 +52,15 @@ class Extender(object):
         return self.fields
 
 
-class AccessorTests(TestCase):
+class AccessorTests(ASTestCase):
+
     def afterSetUp(self):
+        zca.pushGlobalRegistry()
         classImplements(ATDocument, IFoo)
         provideAdapter(Extender, name=u'foo')
+
+    def beforeTearDown(self):
+        zca.popGlobalRegistry()
 
     def testDefaultIndexAccessor(self):
         doc = self.folder[self.folder.invokeFactory('Document', 'doc', foo=23)]
