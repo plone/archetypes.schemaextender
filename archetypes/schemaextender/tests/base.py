@@ -12,6 +12,7 @@ import unittest
 
 class ASTestCase(PloneTestCase):
     """ Base class for testing archetypes.schemaextender """
+    layer = zca.UNIT_TESTING
 
 
 @implementer(IExtensible)

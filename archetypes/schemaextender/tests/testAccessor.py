@@ -54,31 +54,27 @@ class Extender(object):
 
 class AccessorTests(ASTestCase):
 
-    def testDefaultIndexAccessor(self):
+    def afterSetUp(self):
         classImplements(ATDocument, IFoo)
         provideAdapter(Extender, name=u'foo')
+
+    def testDefaultIndexAccessor(self):
         doc = self.folder[self.folder.invokeFactory('Document', 'doc', foo=23)]
         field = doc.getField('foo')
         self.assertEqual(field.getIndexAccessor(doc)(), 23)
 
     def testNamedIndexAccessor(self):
-        classImplements(ATDocument, IFoo)
-        provideAdapter(Extender, name=u'foo')
         doc = self.folder[self.folder.invokeFactory('Document', 'doc', bar=23)]
         field = doc.getField('bar')
         self.assertEqual(field.getAccessor(doc)(), 23)
         self.assertEqual(field.getIndexAccessor(doc)(), 'doc')
 
     def testInvalidIndexAccessor(self):
-        classImplements(ATDocument, IFoo)
-        provideAdapter(Extender, name=u'foo')
         doc = self.folder[self.folder.invokeFactory('Document', 'doc', hmm=23)]
         field = doc.getField('hmm')
         self.assertRaises(ValueError, field.getIndexAccessor, doc)
 
     def testComputedField(self):
-        classImplements(ATDocument, IFoo)
-        provideAdapter(Extender, name=u'foo')
         doc = self.folder[self.folder.invokeFactory('Document', 'doc')]
         field = doc.getField('ho')
         self.assertEqual(field.getAccessor(doc)(), 'I compute ho')
