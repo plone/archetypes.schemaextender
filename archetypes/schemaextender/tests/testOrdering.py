@@ -1,14 +1,15 @@
-import unittest
-from Products.Archetypes.public import Schema
-from Products.Archetypes.public import ManagedSchema
-from Products.Archetypes.utils import OrderedDict
+# -*- coding: utf-8 -*-
 from archetypes.schemaextender.extender import get_schema_order
 from archetypes.schemaextender.extender import set_schema_order
 from archetypes.schemaextender.tests.mocks import MockField
+from Products.Archetypes.public import ManagedSchema
+from Products.Archetypes.public import Schema
+from Products.Archetypes.utils import OrderedDict
+
+import unittest
 
 
 class GetSchemaOrderTests(unittest.TestCase):
-
     def testEmptySchema(self):
         schema = Schema()
         self.assertEqual(get_schema_order(schema), {})
@@ -39,7 +40,6 @@ class GetSchemaOrderTests(unittest.TestCase):
 
 
 class SetSchemaOrderTests(unittest.TestCase):
-
     def testEmptySchema(self):
         schema = Schema()
         before = schema.signature()

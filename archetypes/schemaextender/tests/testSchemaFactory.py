@@ -1,22 +1,22 @@
+# -*- coding: utf-8 -*-
 from archetypes.schemaextender.extender import instanceSchemaFactory
 from archetypes.schemaextender.tests.base import TestCase
 from archetypes.schemaextender.tests.mocks import Extender
-from archetypes.schemaextender.tests.mocks import OrderableExtender
 from archetypes.schemaextender.tests.mocks import MockField
+from archetypes.schemaextender.tests.mocks import OrderableExtender
+from zope.component import provideAdapter
 
 
 class NonExtenderTests(TestCase):
-
     def testNoExtenderMeansNoChanges(self):
         schema = instanceSchemaFactory(self.instance)
         self.assertTrue(schema is self.instance.schema)
 
 
 class ExtenderTests(TestCase):
-
     def setUp(self):
         TestCase.setUp(self)
-        self.provideAdapter(Extender, name=u"atse.tests.extender")
+        provideAdapter(Extender, name=u"atse.tests.extender")
         Extender.fields = []
 
     def testNopExtender(self):
@@ -35,10 +35,9 @@ class ExtenderTests(TestCase):
 
 
 class OrderableExtenderTests(ExtenderTests):
-
     def setUp(self):
         TestCase.setUp(self)
-        self.provideAdapter(OrderableExtender, name=u"atse.tests.extender")
+        provideAdapter(OrderableExtender, name=u"atse.tests.extender")
         Extender.fields = []
 
     def testFieldOrder(self):

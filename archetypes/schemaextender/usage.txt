@@ -253,10 +253,10 @@ test.
     >>> browser.addHeader('Authorization',
     ...                   'Basic %s:%s' % (TEST_USER_NAME, TEST_USER_PASSWORD))
 
+    >>> browser.handleErrors = False
     >>> browser.open(folder_url)
     >>> browser.getLink('Add new').click()
     >>> browser.getControl('Page').click()
-    >>> browser.handleErrors = False
     >>> browser.getControl('Add').click()
 
 Now we are on the edit page. Let's find and set some values, as well as

@@ -1,15 +1,27 @@
-import unittest
-from zope.interface import implementer
-from zope.component import provideAdapter
-from zope.component import getGlobalSiteManager
+# -*- coding: utf-8 -*-
 from archetypes.schemaextender.extender import instanceSchemaFactory
 from archetypes.schemaextender.interfaces import IExtensible
-from plone.app.testing.bbb import PloneTestCase
+from plone.app.testing import helpers
+from plone.app.testing.bbb_at import PloneTestCase
+from plone.testing import zca
 from Products.Archetypes.public import BaseObject
+from zope.component import provideAdapter
+from zope.interface import implementer
+
+import unittest
 
 
 class ASTestCase(PloneTestCase):
-    """ Base class for testing archetypes.schemaextender """
+    """ Base class for testing archetypes.schemaextender
+        we manually push and pop global registry here to avoid
+        leaking extended fields into other testcases
+    """
+
+    def beforeSetUp(self):
+        helpers.pushGlobalRegistry(self.layer['portal'])
+
+    def afterTearDown(self):
+        helpers.popGlobalRegistry(self.layer['portal'])
 
 
 @implementer(IExtensible)
@@ -19,16 +31,8 @@ class ExtensibleType(BaseObject):
 
 class TestCase(unittest.TestCase):
 
+    layer = zca.UNIT_TESTING
+
     def setUp(self):
-        self._adapters=[]
-        self.provideAdapter(instanceSchemaFactory)
-        self.instance=ExtensibleType("id")
-
-    def tearDown(self):
-        sm=getGlobalSiteManager()
-        for (args, kwargs) in self._adapters:
-            sm.unregisterAdapter(*args, **kwargs)
-
-    def provideAdapter(self, *args, **kwargs):
-        provideAdapter(*args, **kwargs)
-        self._adapters.append((args, kwargs))
+        provideAdapter(instanceSchemaFactory)
+        self.instance = ExtensibleType("id")
