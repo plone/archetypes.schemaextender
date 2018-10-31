@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '2.1.9.dev0'
+version = '3.0.0.dev0'
 
 setup(
     name='archetypes.schemaextender',
@@ -10,9 +10,6 @@ setup(
                       open("CHANGES.rst").read()),
     classifiers=[
         "Framework :: Plone",
-        "Framework :: Plone :: 4.3",
-        "Framework :: Plone :: 5.0",
-        "Framework :: Plone :: 5.1",
         "Framework :: Plone :: 5.2",
         "Framework :: Zope2",
         "License :: OSI Approved :: GNU General Public License (GPL)",
