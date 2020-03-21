@@ -12,6 +12,7 @@ setup(
         "Development Status :: 6 - Mature",
         "Framework :: Plone",
         "Framework :: Plone :: 5.2",
+        "Framework :: Plone :: Core",
         "Framework :: Zope2",
         "Framework :: Zope :: 4",
         "License :: OSI Approved :: GNU General Public License (GPL)",
