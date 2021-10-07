@@ -25,6 +25,7 @@ setup(
         "License :: OSI Approved :: GNU General Public License (GPL)",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 2 :: Only",
     ],
     keywords='Archetypes Schema extend',
     author='Florian Schulze',
