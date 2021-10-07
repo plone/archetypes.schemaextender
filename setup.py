@@ -7,7 +7,7 @@ if sys.version_info[0] != 2:
     # Prevent creating or installing a distribution with Python 3.
     raise ValueError("archetypes.schemaextender is based on Archetypes, which is Python 2 only.")
 
-version = '3.0.2'
+version = '3.0.3.dev0'
 
 setup(
     name='archetypes.schemaextender',
